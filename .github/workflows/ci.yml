@@ -90,6 +90,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Prisma Client
+        run: pnpm --filter=@realtyeaseai/database run db:generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Build ${{ matrix.app }}
         run: pnpm --filter=@realtyeaseai/${{ matrix.app }} build
         env:
