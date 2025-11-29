@@ -1,0 +1,587 @@
+// Prisma Schema for VirtualAssist AI
+// Database: PostgreSQL (Supabase)
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============================================
+// AUTHENTICATION & USERS
+// ============================================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String?
+  name          String?
+  emailVerified DateTime?
+  image         String?
+  isActive      Boolean   @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Authentication
+  accounts              Account[]
+  sessions              Session[]
+  roles                 UserRole[]
+  profile               UserProfile?
+  
+  // Billing
+  subscription          Subscription[]
+  aiWallet              AICreditsWallet?
+  invoices              Invoice[]
+  usageRecords          UsageRecord[]
+
+  // Projects
+  ownedProjects         Project[]             @relation("ClientProjects")
+  managedProjects       Project[]             @relation("ManagedProjects")
+  projectAssignments    ProjectAssignment[]
+
+  // Tasks
+  assignedTasks         Task[]                @relation("AssignedTasks")
+  createdTasks          Task[]                @relation("CreatedTasks")
+  timeLogs              TimeLog[]
+  taskComments          TaskComment[]
+
+  // Conversations
+  conversations         Conversation[]
+  conversationParticipants ConversationParticipant[]
+
+  // Notifications
+  notifications         Notification[]
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model UserRole {
+  id        String   @id @default(uuid())
+  userId    String
+  role      Role
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, role])
+}
+
+model UserProfile {
+  id        String  @id @default(uuid())
+  userId    String  @unique
+  firstName String
+  lastName  String
+  avatar    String?
+  phone     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  CLIENT
+  VA
+}
+
+// ============================================
+// SUBSCRIPTION & BILLING
+// ============================================
+
+model Subscription {
+  id                String             @id @default(uuid())
+  userId            String
+  planId            String
+  status            SubscriptionStatus @default(ACTIVE)
+  startDate         DateTime           @default(now())
+  endDate           DateTime?
+  cancelledAt       DateTime?
+  trialEndsAt       DateTime?
+  currentPeriodStart DateTime          @default(now())
+  currentPeriodEnd  DateTime
+  paypalSubscriptionId String?         @unique
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan              SubscriptionPlan   @relation(fields: [planId], references: [id])
+  invoices          Invoice[]
+  usageRecords      UsageRecord[]
+
+  @@index([userId, status])
+  @@index([status, endDate])
+}
+
+model SubscriptionPlan {
+  id                String   @id @default(uuid())
+  name              String   // "Starter", "Professional", "Enterprise"
+  slug              String   @unique // "starter", "professional", "enterprise"
+  description       String?
+  price             Decimal  @db.Decimal(10, 2)
+  currency          String   @default("USD")
+  billingInterval   BillingInterval @default(MONTHLY)
+
+  // Feature limits
+  maxProjects       Int?     // null = unlimited
+  maxTasks          Int?     // null = unlimited
+  maxTeamMembers    Int?     // null = unlimited
+  maxVAs            Int?     // null = unlimited
+  maxStorageGB      Int?     // null = unlimited
+
+  // AI Credits included per month (0 = none, null = unlimited)
+  includedAICredits Int      @default(0)
+
+  // Feature flags
+  hasMessaging      Boolean  @default(true)
+  hasAdvancedAnalytics Boolean @default(false)
+  hasCustomBranding Boolean  @default(false)
+  hasPrioritySupport Boolean @default(false)
+  hasAPIAccess      Boolean  @default(false)
+  hasWhiteLabel     Boolean  @default(false)
+
+  isActive          Boolean  @default(true)
+  isPublic          Boolean  @default(true)
+  sortOrder         Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  subscriptions     Subscription[]
+
+  @@index([isActive, isPublic])
+}
+
+model AICreditsWallet {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  balance       Int      @default(0) // Credits in cents/points
+  lifetimeSpent Int      @default(0) // Total credits ever spent
+  lifetimeAdded Int      @default(0) // Total credits ever added
+  lastTopUpAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions  CreditTransaction[]
+
+  @@index([userId])
+}
+
+model CreditTransaction {
+  id          String              @id @default(uuid())
+  walletId    String
+  amount      Int                 // Positive = credit, Negative = debit
+  balanceAfter Int                // Balance after transaction
+  type        CreditTransactionType
+  description String?
+
+  // Reference data
+  invoiceId   String?
+  aiUsageId   String?             // Reference to MongoDB AILog
+
+  metadata    Json?               // Additional data (tool name, tokens used, etc.)
+  createdAt   DateTime            @default(now())
+
+  wallet      AICreditsWallet     @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@index([walletId, createdAt])
+  @@index([type, createdAt])
+}
+
+model Invoice {
+  id              String        @id @default(uuid())
+  userId          String
+  subscriptionId  String?
+  invoiceNumber   String        @unique // Auto-generated: INV-2025-0001
+
+  // Amounts
+  subtotal        Decimal       @db.Decimal(10, 2)
+  tax             Decimal       @db.Decimal(10, 2) @default(0)
+  discount        Decimal       @db.Decimal(10, 2) @default(0)
+  total           Decimal       @db.Decimal(10, 2)
+  currency        String        @default("USD")
+
+  // Status
+  status          InvoiceStatus @default(PENDING)
+  dueDate         DateTime
+  paidAt          DateTime?
+
+  // Payment info
+  paymentMethod   PaymentMethod?
+  paypalOrderId   String?
+  paypalCaptureId String?
+
+  // Metadata
+  description     String?
+  notes           String?
+  metadata        Json?
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  user            User          @relation(fields: [userId], references: [id])
+  subscription    Subscription? @relation(fields: [subscriptionId], references: [id])
+  items           InvoiceItem[]
+  payments        Payment[]
+
+  @@index([userId, status])
+  @@index([status, dueDate])
+}
+
+model InvoiceItem {
+  id          String   @id @default(uuid())
+  invoiceId   String
+  description String
+  quantity    Int      @default(1)
+  unitPrice   Decimal  @db.Decimal(10, 2)
+  amount      Decimal  @db.Decimal(10, 2)
+  metadata    Json?
+
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([invoiceId])
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  invoiceId       String
+  amount          Decimal       @db.Decimal(10, 2)
+  currency        String        @default("USD")
+  status          PaymentStatus @default(PENDING)
+  method          PaymentMethod
+
+  // PayPal specific
+  paypalOrderId   String?       @unique
+  paypalCaptureId String?
+  paypalPayerId   String?
+
+  // Metadata
+  metadata        Json?
+  failureReason   String?
+
+  processedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  invoice         Invoice       @relation(fields: [invoiceId], references: [id])
+
+  @@index([invoiceId])
+  @@index([status, createdAt])
+}
+
+model UsageRecord {
+  id             String   @id @default(uuid())
+  userId         String
+  subscriptionId String
+
+  // Usage metrics
+  projectsUsed   Int      @default(0)
+  tasksUsed      Int      @default(0)
+  storageUsedMB  Int      @default(0)
+  teamMembers    Int      @default(0)
+  vasHired       Int      @default(0)
+
+  // AI usage
+  aiCreditsUsed  Int      @default(0)
+
+  // Period
+  periodStart    DateTime
+  periodEnd      DateTime
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user           User         @relation(fields: [userId], references: [id])
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+
+  @@index([userId, periodStart])
+  @@index([subscriptionId, periodStart])
+}
+
+// ============================================
+// CORE MODELS (Projects, Tasks, Team)
+// ============================================
+
+model Project {
+  id          String        @id @default(uuid())
+  name        String
+  description String?
+  clientId    String        // Owner of the project
+  managerId   String?       // Assigned manager
+  status      ProjectStatus @default(ACTIVE)
+  priority    Priority      @default(MEDIUM)
+  startDate   DateTime?
+  endDate     DateTime?
+  budget      Decimal?      @db.Decimal(10, 2)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  client      User          @relation("ClientProjects", fields: [clientId], references: [id])
+  manager     User?         @relation("ManagedProjects", fields: [managerId], references: [id])
+  tasks       Task[]
+  assignments ProjectAssignment[]
+
+  @@index([clientId, status])
+  @@index([managerId, status])
+}
+
+model Task {
+  id          String     @id @default(uuid())
+  projectId   String
+  title       String
+  description String?
+  assignedToId String?
+  createdById String
+  status      TaskStatus @default(TODO)
+  priority    Priority   @default(MEDIUM)
+  dueDate     DateTime?
+  estimatedHours Decimal? @db.Decimal(5, 2)
+  completedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assignedTo  User?      @relation("AssignedTasks", fields: [assignedToId], references: [id])
+  createdBy   User       @relation("CreatedTasks", fields: [createdById], references: [id])
+  timeLogs    TimeLog[]
+  comments    TaskComment[]
+
+  @@index([projectId, status])
+  @@index([assignedToId, status])
+  @@index([dueDate])
+}
+
+model TaskComment {
+  id        String   @id @default(uuid())
+  taskId    String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([taskId, createdAt])
+}
+
+model ProjectAssignment {
+  id        String   @id @default(uuid())
+  projectId String
+  userId    String   // VA or team member
+  role      String?  // "Developer", "Designer", etc.
+  startDate DateTime @default(now())
+  endDate   DateTime?
+  createdAt DateTime @default(now())
+
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([projectId, userId])
+  @@index([userId])
+}
+
+model TimeLog {
+  id          String   @id @default(uuid())
+  taskId      String
+  userId      String
+  description String?
+  hours       Decimal  @db.Decimal(5, 2)
+  logDate     DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@index([taskId, logDate])
+  @@index([userId, logDate])
+}
+
+// ============================================
+// CONVERSATIONS (Metadata only, messages in MongoDB)
+// ============================================
+
+model Conversation {
+  id            String   @id @default(uuid())
+  type          ConversationType @default(DIRECT)
+  name          String?  // For group chats
+  createdById   String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastMessageAt DateTime @default(now())
+
+  createdBy     User     @relation(fields: [createdById], references: [id])
+  participants  ConversationParticipant[]
+
+  @@index([lastMessageAt])
+}
+
+model ConversationParticipant {
+  id             String   @id @default(uuid())
+  conversationId String
+  userId         String
+  joinedAt       DateTime @default(now())
+  lastReadAt     DateTime @default(now())
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id])
+
+  @@unique([conversationId, userId])
+  @@index([userId])
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  actionUrl String?
+  isRead    Boolean          @default(false)
+  readAt    DateTime?
+  metadata  Json?
+  createdAt DateTime         @default(now())
+
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt])
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum ProjectStatus {
+  ACTIVE
+  COMPLETED
+  ON_HOLD
+  CANCELLED
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  IN_REVIEW
+  COMPLETED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  PAST_DUE
+  UNPAID
+  TRIALING
+  PAUSED
+}
+
+enum BillingInterval {
+  MONTHLY
+  YEARLY
+}
+
+enum InvoiceStatus {
+  DRAFT
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  PAYPAL
+  CREDIT_CARD
+  BANK_TRANSFER
+  CREDITS
+  MANUAL
+}
+
+enum CreditTransactionType {
+  PURCHASE          // Bought credits
+  SUBSCRIPTION      // Monthly credits from plan
+  BONUS             // Promotional credits
+  REFUND            // Refunded credits
+  AI_USAGE          // Used for AI tools
+  EXPIRED           // Credits expired
+  ADMIN_ADJUSTMENT  // Manual adjustment
+}
+
+enum ConversationType {
+  DIRECT
+  GROUP
+  PROJECT
+}
+
+enum NotificationType {
+  TASK_ASSIGNED
+  TASK_COMPLETED
+  TASK_COMMENT
+  PROJECT_UPDATED
+  MESSAGE_RECEIVED
+  PAYMENT_RECEIVED
+  PAYMENT_FAILED
+  SUBSCRIPTION_EXPIRING
+  SUBSCRIPTION_RENEWED
+  CREDITS_LOW
+  CREDITS_PURCHASED
+  SYSTEM_ALERT
+}

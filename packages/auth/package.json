@@ -1,0 +1,15 @@
+{
+    "name": "@realtyeaseai/auth",
+    "version": "1.0.0",
+    "main": "./src/index.ts",
+    "types": "./src/index.ts",
+    "dependencies": {
+        "@auth/prisma-adapter": "latest",
+        "bcryptjs": "latest",
+        "next-auth": "beta"
+    },
+    "devDependencies": {
+        "@types/node": "latest",
+        "typescript": "latest"
+    }
+}
