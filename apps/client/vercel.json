@@ -1,5 +1,5 @@
 {
-    "buildCommand": "cd ../.. && pnpm install && pnpm build --filter=@realtyeaseai/client",
+    "buildCommand": "cd ../.. && pnpm install && pnpm --filter=@realtyeaseai/database run db:generate && pnpm build --filter=@realtyeaseai/client",
     "devCommand": "pnpm dev",
     "installCommand": "pnpm install --frozen-lockfile",
     "framework": "nextjs",

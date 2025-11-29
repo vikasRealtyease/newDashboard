@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "RealtyEaseAI - Scale Your Business with Expert VAs & AI Tools",
     description: "Get dedicated virtual assistants for social media, marketing, and web development. Supercharged with AI tools to 10x productivity.",
-    url: 'https://realtyease.ai',
+    url: 'https://realtyeaseai.com',
     siteName: 'RealtyEaseAI',
     locale: 'en_US',
     type: 'website',
