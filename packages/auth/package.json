@@ -5,10 +5,13 @@
     "types": "./src/index.ts",
     "dependencies": {
         "@auth/prisma-adapter": "latest",
+        "@realtyeaseai/database": "*",
         "bcryptjs": "latest",
-        "next-auth": "beta"
+        "next-auth": "beta",
+        "zod": "latest"
     },
     "devDependencies": {
+        "@types/bcryptjs": "latest",
         "@types/node": "latest",
         "typescript": "latest"
     }

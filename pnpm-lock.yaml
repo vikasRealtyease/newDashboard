@@ -391,13 +391,22 @@ importers:
       '@auth/prisma-adapter':
         specifier: latest
         version: 2.11.1(@prisma/client@6.19.0)
+      '@realtyeaseai/database':
+        specifier: '*'
+        version: link:../database
       bcryptjs:
         specifier: latest
         version: 3.0.3
       next-auth:
         specifier: beta
         version: 5.0.0-beta.30(next@16.0.5)(react@19.0.0)
+      zod:
+        specifier: latest
+        version: 4.1.13
     devDependencies:
+      '@types/bcryptjs':
+        specifier: latest
+        version: 3.0.0
       '@types/node':
         specifier: latest
         version: 24.10.1
@@ -3225,6 +3234,13 @@ packages:
     dev: true
     optional: true
 
+  /@types/bcryptjs@3.0.0:
+    resolution: {integrity: sha512-WRZOuCuaz8UcZZE4R5HXTco2goQSI2XxjGY3hbM/xDvwmqFWd4ivooImsMx65OKM6CtNKbnZ5YL+YwAwK7c1dg==}
+    deprecated: This is a stub types definition. bcryptjs provides its own type definitions, so you do not need this installed.
+    dependencies:
+      bcryptjs: 3.0.3
+    dev: true
+
   /@types/d3-array@3.2.2:
     resolution: {integrity: sha512-hOLWVbm7uRza0BYXpIIW5pxfrKe0W+D5lrFiAEYR+pb6w3N2SwSMaJbXdUfSEv+dT4MfHBLtn5js0LAWaO6otw==}
     dev: false
@@ -3801,7 +3817,6 @@ packages:
   /bcryptjs@3.0.3:
     resolution: {integrity: sha512-GlF5wPWnSa/X5LKM1o0wz0suXIINz1iHRLvTS+sLyi7XPbe5ycmYI3DlZqVGZZtDgl4DmasFg7gOB3JYbphV5g==}
     hasBin: true
-    dev: false
 
   /brace-expansion@1.1.12:
     resolution: {integrity: sha512-9T9UjW3r0UW5c1Q7GTwllptXwhvYmEzFhzMfZ9H7FQWt+uZePjZPjBP/W1ZEyZ1twGWom5/56TF4lPcqjnDHcg==}
