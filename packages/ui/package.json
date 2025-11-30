@@ -7,7 +7,8 @@
         ".": "./src/index.ts",
         "./styles/globals.css": "./src/styles/globals.css",
         "./features/*": "./src/features/*/index.ts",
-        "./layouts/*": "./src/layouts/*.tsx"
+        "./layouts/*": "./src/layouts/*.tsx",
+        "./role-dashboards": "./src/features/dashboard/role-dashboards/index.ts"
     },
     "dependencies": {
         "@hookform/resolvers": "^5.2.2",

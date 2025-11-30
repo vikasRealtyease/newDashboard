@@ -15,6 +15,8 @@ import {
     PostCreator,
     SocialMediaAnalytics,
     SuperAdminPanel,
+} from "@realtyeaseai/ui";
+import {
     getAdminMenuItems,
     getAdminTitle,
     getClientMenuItems,
@@ -23,7 +25,7 @@ import {
     getManagerTitle,
     getVAMenuItems,
     getVATitle,
-} from "@realtyeaseai/ui";
+} from "@realtyeaseai/ui/role-dashboards";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Role } from "@realtyeaseai/database";
