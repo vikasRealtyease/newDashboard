@@ -1,20 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TextField, Button, LinkButton } from "./SimpleComponents";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { toast } from "@realtyeaseai/ui";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.realtyeaseai.com";
 
 export function LoginForm() {
+    const searchParams = useSearchParams();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+    // Get callback URL from query params or default to app dashboard
+    const callbackUrl = searchParams?.get("callbackUrl") || `${APP_URL}/dashboard`;
+
+    useEffect(() => {
+        // Load remembered email if exists
+        const remembered = localStorage.getItem('rememberedEmail');
+        if (remembered) {
+            setEmail(remembered);
+            setRememberMe(true);
+        }
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,16 +45,18 @@ export function LoginForm() {
             if (result?.error) {
                 setError("Invalid credentials. Please try again.");
             } else if (result?.ok) {
-                // Store user data in localStorage if remember me is checked
+                // Store email if remember me is checked
                 if (rememberMe) {
                     localStorage.setItem('rememberedEmail', email);
+                } else {
+                    localStorage.removeItem('rememberedEmail');
                 }
 
                 // Show success message
                 toast.success('Login successful!');
 
-                // Redirect to dashboard
-                window.location.href = `${APP_URL}/dashboard`;
+                // Redirect to callback URL or dashboard
+                window.location.href = callbackUrl;
             }
         } catch (err) {
             setError('An error occurred. Please try again.');
@@ -53,7 +69,7 @@ export function LoginForm() {
     const handleGoogleSignIn = async () => {
         try {
             await signIn("google", {
-                callbackUrl: `${APP_URL}/dashboard`,
+                callbackUrl: callbackUrl,
             });
         } catch (err) {
             console.error('Google sign-in error:', err);

@@ -1,5 +1,5 @@
 // Dashboard Feature Components
 export * from './dashboard';
-export * from './auth';
+// Auth components moved to app-specific implementations
 export * from './profile/profile-settings';
 export * from './social-media';
