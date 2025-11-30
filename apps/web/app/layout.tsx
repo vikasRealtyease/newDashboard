@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@realtyeaseai/ui";
 import "./globals.css";
-import "react-phone-number-input/style.css";
 
 export const metadata: Metadata = {
   title: "RealtyEaseAI - Scale Your Business with Expert VAs & AI Tools",

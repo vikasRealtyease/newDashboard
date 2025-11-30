@@ -444,7 +444,7 @@ html {
 }
 
 /* Country code display */
-.PhoneInputCountry .PhoneInputCountrySelect + * {
+.PhoneInputCountry .PhoneInputCountrySelect+* {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -474,4 +474,31 @@ html {
 
 .PhoneInputInput:focus {
   outline: none;
+}
+
+/* Base CSS variables for react-phone-number-input */
+:root {
+  --PhoneInputCountryFlag-aspectRatio: 1.5;
+  --PhoneInputCountryFlag-height: 1em;
+  --PhoneInputCountryFlag-borderWidth: 1px;
+  --PhoneInputCountryFlag-borderColor: rgba(0, 0, 0, 0.5);
+  --PhoneInputCountryFlag-borderColor--focus: #1ca2dc;
+  --PhoneInputCountryFlag-backgroundColor--loading: rgba(0, 0, 0, 0.1);
+}
+
+.PhoneInputCountryIcon--border {
+  background-color: var(--PhoneInputCountryFlag-backgroundColor--loading);
+  box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor),
+    inset 0 0 0 var(--PhoneInputCountryFlag-borderWidth) var(--PhoneInputCountryFlag-borderColor);
+}
+
+.PhoneInputCountryIcon {
+  width: calc(var(--PhoneInputCountryFlag-height) * var(--PhoneInputCountryFlag-aspectRatio));
+  height: var(--PhoneInputCountryFlag-height);
+}
+
+.PhoneInputCountryIconImg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
