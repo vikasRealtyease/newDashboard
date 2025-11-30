@@ -1,5 +1,5 @@
 {
-    "buildCommand": "turbo build --filter=@realtyeaseai/web",
+    "buildCommand": "pnpm turbo build --filter=@realtyeaseai/web",
     "installCommand": "pnpm install --frozen-lockfile",
     "framework": "nextjs",
     "outputDirectory": ".next",
