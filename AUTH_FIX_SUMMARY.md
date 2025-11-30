@@ -8,7 +8,7 @@
 - ✅ Installed `@realtyeaseai/auth` and `next-auth` in Web app.
 - ✅ Created `apps/web/app/api/auth/[...nextauth]/route.ts` to enable shared auth.
 - ✅ Updated Web app's Login Page to use NextAuth `signIn` server action.
-- ✅ Added `middleware.ts` to Client app to properly protect routes.
+- ✅ Added `proxy.ts` (Middleware) to Client app to properly protect routes.
 
 **Result:** Logging in on the Web app now creates a valid session for the Client app and redirects you there.
 
@@ -28,11 +28,15 @@ Go to **Vercel Dashboard** → **Settings** → **Environment Variables** for **
 DATABASE_URL=postgresql://user:password@host:5432/database?sslmode=require
 
 # Auth Configuration
-NEXTAUTH_URL=https://app.realtyeaseai.com  # (Change for each app URL)
 NEXTAUTH_SECRET=j2h6qX8cM99Jd8Cecoalv0PIHqnJy1tAkEzIKA6Ao4o=
+# Change this for each app (e.g., https://app.realtyeaseai.com for Client)
+NEXTAUTH_URL=https://realtyeaseai.com
 
-# App Links
+# App Links (REQUIRED for redirects)
 NEXT_PUBLIC_CLIENT_URL=https://app.realtyeaseai.com
+NEXT_PUBLIC_ADMIN_URL=https://admin.realtyeaseai.com
+NEXT_PUBLIC_MANAGER_URL=https://manager.realtyeaseai.com
+NEXT_PUBLIC_VA_URL=https://va.realtyeaseai.com
 ```
 
 ### 2. Redeploy
@@ -42,7 +46,11 @@ After adding the variables, go to **Deployments** and click **Redeploy**.
 
 1. **Login on Web App:** Go to `realtyeaseai.com/login`.
 2. **Enter Credentials:** Use a valid user.
-3. **Success:** You should be redirected to `app.realtyeaseai.com` (Client Dashboard).
+3. **Success:** You should be redirected to the correct subdomain based on your role:
+   - **CLIENT** → `app.realtyeaseai.com`
+   - **ADMIN** → `admin.realtyeaseai.com`
+   - **MANAGER** → `manager.realtyeaseai.com`
+   - **VA** → `va.realtyeaseai.com`
 4. **Session:** You should stay logged in.
 
 ---
