@@ -66,7 +66,7 @@ export function DashboardPreview() {
     ];
 
     return (
-        <section className="py-24 bg-gradient-to-b from-white to-neutral-50 dark:from-neutral-950 dark:to-neutral-900 relative overflow-hidden">
+        <section className="py-24 bg-linear-to-b from-white to-neutral-50 dark:from-neutral-950 dark:to-neutral-900 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 opacity-30">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(28,162,220,0.1),transparent_50%)]" />
@@ -88,7 +88,7 @@ export function DashboardPreview() {
                     </div>
                     <h2 className="text-4xl md:text-5xl font-bold text-default-font mb-6">
                         Everything You Need in{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-purple-600">
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-brand-600 to-purple-600">
                             One Place
                         </span>
                     </h2>
@@ -114,9 +114,9 @@ export function DashboardPreview() {
                                         <TabsTrigger
                                             key={feature.id}
                                             value={feature.id}
-                                            className="flex flex-col items-center gap-2 p-4 data-[state=active]:bg-gradient-to-br data-[state=active]:from-brand-50 data-[state=active]:to-purple-50 dark:data-[state=active]:from-brand-900/40 dark:data-[state=active]:to-purple-900/40 data-[state=active]:border-brand-300 dark:data-[state=active]:border-brand-600 rounded-xl transition-all"
+                                            className="flex flex-col items-center gap-2 p-4 data-[state=active]:bg-linear-to-br data-[state=active]:from-brand-50 data-[state=active]:to-purple-50 dark:data-[state=active]:from-brand-900/40 dark:data-[state=active]:to-purple-900/40 data-[state=active]:border-brand-300 dark:data-[state=active]:border-brand-600 rounded-xl transition-all"
                                         >
-                                            <div className={`h-10 w-10 rounded-lg bg-gradient-to-br ${feature.color} flex items-center justify-center`}>
+                                            <div className={`h-10 w-10 rounded-lg bg-linear-to-br ${feature.color} flex items-center justify-center`}>
                                                 <Icon className="h-5 w-5 text-white" />
                                             </div>
                                             <span className="text-xs font-medium text-center hidden lg:block text-neutral-600 dark:text-neutral-400 data-[state=active]:text-brand-700 dark:data-[state=active]:text-brand-300">
@@ -141,7 +141,7 @@ export function DashboardPreview() {
                                             transition={{ duration: 0.5 }}
                                             className="space-y-6"
                                         >
-                                            <div className={`inline-flex h-16 w-16 rounded-2xl bg-gradient-to-br ${feature.color} items-center justify-center shadow-lg`}>
+                                            <div className={`inline-flex h-16 w-16 rounded-2xl bg-linear-to-br ${feature.color} items-center justify-center shadow-lg`}>
                                                 <Icon className="h-8 w-8 text-white" />
                                             </div>
                                             <div>
@@ -157,7 +157,7 @@ export function DashboardPreview() {
                                             <div className="space-y-3">
                                                 {getFeatureBenefits(feature.id).map((benefit, index) => (
                                                     <div key={index} className="flex items-start gap-3">
-                                                        <div className="h-6 w-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                        <div className="h-6 w-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0 mt-0.5">
                                                             <svg className="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                                             </svg>
@@ -197,8 +197,8 @@ export function DashboardPreview() {
                                             </div>
 
                                             {/* Decorative elements */}
-                                            <div className={`absolute -top-6 -right-6 h-32 w-32 rounded-full bg-gradient-to-br ${feature.color} opacity-20 blur-3xl`} />
-                                            <div className={`absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-gradient-to-br ${feature.color} opacity-20 blur-3xl`} />
+                                            <div className={`absolute -top-6 -right-6 h-32 w-32 rounded-full bg-linear-to-br ${feature.color} opacity-20 blur-3xl`} />
+                                            <div className={`absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-linear-to-br ${feature.color} opacity-20 blur-3xl`} />
                                         </motion.div>
                                     </div>
                                 </TabsContent>
@@ -324,7 +324,7 @@ function renderDashboardPreview(featureId: string): React.ReactElement {
                     ))}
                 </div>
                 <div className="bg-white rounded-lg border border-neutral-200 p-4">
-                    <div className="h-32 bg-gradient-to-t from-brand-100 to-transparent rounded" />
+                    <div className="h-32 bg-linear-to-t from-brand-100 to-transparent rounded" />
                 </div>
             </div>
         ),
@@ -332,7 +332,7 @@ function renderDashboardPreview(featureId: string): React.ReactElement {
             <div className="space-y-3">
                 {[1, 2, 3].map((i) => (
                     <div key={i} className="bg-white rounded-lg border border-neutral-200 p-4 flex items-center gap-4">
-                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-brand-400 to-purple-400" />
+                        <div className="h-12 w-12 rounded-full bg-linear-to-br from-brand-400 to-purple-400" />
                         <div className="flex-1">
                             <div className="h-4 bg-neutral-200 rounded w-32 mb-2" />
                             <div className="h-3 bg-neutral-100 rounded w-24" />
@@ -347,7 +347,7 @@ function renderDashboardPreview(featureId: string): React.ReactElement {
                 {[1, 2].map((i) => (
                     <div key={i} className="bg-white rounded-lg border-2 border-brand-200 p-4">
                         <div className="flex items-start gap-4">
-                            <div className="h-16 w-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400" />
+                            <div className="h-16 w-16 rounded-full bg-linear-to-br from-purple-400 to-pink-400" />
                             <div className="flex-1">
                                 <div className="h-4 bg-neutral-200 rounded w-40 mb-2" />
                                 <div className="h-3 bg-neutral-100 rounded w-32 mb-3" />
@@ -363,7 +363,7 @@ function renderDashboardPreview(featureId: string): React.ReactElement {
         ),
         "ai-tools": (
             <div className="space-y-4">
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border-2 border-purple-200 p-4">
+                <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-lg border-2 border-purple-200 p-4">
                     <div className="flex items-center gap-2 mb-3">
                         <Sparkles className="h-5 w-5 text-purple-600" />
                         <div className="h-4 bg-purple-200 rounded w-32" />

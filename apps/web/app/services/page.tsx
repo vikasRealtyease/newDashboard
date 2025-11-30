@@ -39,7 +39,7 @@ export default function ServicesPage() {
 
                     <h1 className="text-4xl md:text-7xl font-bold leading-tight text-default-font tracking-tight">
                         Comprehensive Solutions for{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-brand-500 to-brand-400 animate-gradient">
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-brand-600 via-brand-500 to-brand-400 animate-gradient">
                             Every Business Need
                         </span>
                     </h1>
@@ -77,11 +77,11 @@ export default function ServicesPage() {
                                         whileHover={{ y: -8, scale: 1.02 }}
                                     >
                                         {/* Gradient Background on Hover */}
-                                        <div className={`absolute inset-0 bg-gradient-to-br ${gradients[index]} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                                        <div className={`absolute inset-0 bg-linear-to-br ${gradients[index]} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
 
                                         {/* Icon */}
                                         <div className="relative z-10">
-                                            <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${gradients[index]} flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}>
+                                            <div className={`h-16 w-16 rounded-2xl bg-linear-to-br ${gradients[index]} flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}>
                                                 <ServiceIcon className="h-8 w-8 text-white" />
                                             </div>
                                         </div>
@@ -100,7 +100,7 @@ export default function ServicesPage() {
                                         <div className="flex flex-col gap-2 relative z-10">
                                             {service.features.slice(0, 3).map((feature, i) => (
                                                 <div key={i} className="flex items-center gap-2 text-sm text-subtext-color">
-                                                    <Icon icon="mdi:check" className="h-4 w-4 text-success-500 flex-shrink-0" />
+                                                    <Icon icon="mdi:check" className="h-4 w-4 text-success-500 shrink-0" />
                                                     <span className="line-clamp-1">{feature}</span>
                                                 </div>
                                             ))}
@@ -125,7 +125,7 @@ export default function ServicesPage() {
             </div>
 
             {/* Why Choose Our Services */}
-            <div className="w-full bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-900 dark:to-neutral-950 py-24 relative overflow-hidden">
+            <div className="w-full bg-linear-to-b from-neutral-50 to-white dark:from-neutral-900 dark:to-neutral-950 py-24 relative overflow-hidden">
                 <GradientBlob className="top-0 right-20 w-[500px] h-[500px]" color="success" animate={false} />
 
                 <div className="container max-w-none flex flex-col items-center gap-16 relative z-10">
@@ -172,7 +172,7 @@ export default function ServicesPage() {
                                 whileHover={{ y: -5 }}
                                 className="flex flex-col items-center gap-4 text-center p-6 rounded-2xl hover:bg-white dark:hover:bg-neutral-800 hover:shadow-lg transition-all duration-300"
                             >
-                                <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-lg`}>
+                                <div className={`h-16 w-16 rounded-2xl bg-linear-to-br ${item.gradient} flex items-center justify-center shadow-lg`}>
                                     <Icon icon={item.icon} className="h-8 w-8 text-white" />
                                 </div>
                                 <div>
@@ -186,7 +186,7 @@ export default function ServicesPage() {
             </div>
 
             {/* CTA Section */}
-            <div className="w-full bg-gradient-to-br from-brand-600 via-brand-500 to-brand-700 py-24 relative overflow-hidden">
+            <div className="w-full bg-linear-to-br from-brand-600 via-brand-500 to-brand-700 py-24 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
                 <GradientBlob className="top-0 left-0 w-[600px] h-[600px]" color="warning" />
 

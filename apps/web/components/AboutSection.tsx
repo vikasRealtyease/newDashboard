@@ -20,10 +20,10 @@ export function AboutSection() {
                         Our Mission
                     </Badge>
                     <div className="flex flex-col items-center gap-4">
-                        <span className="text-[56px] font-[600] leading-[64px] text-default-font">
+                        <span className="text-[56px] font-semibold leading-[64px] text-default-font">
                             Empowering Businesses to Grow Faster
                         </span>
-                        <span className="text-[20px] font-[400] leading-[28px] text-subtext-color">
+                        <span className="text-[20px] font-normal leading-[28px] text-subtext-color">
                             We believe in the power of human creativity amplified by artificial intelligence. Our mission is to make elite support accessible to everyone.
                         </span>
                     </div>
@@ -40,7 +40,7 @@ export function AboutSection() {
                         { label: "Countries Served", value: "30+" }
                     ].map((stat, i) => (
                         <div key={i} className="flex flex-col items-center gap-2">
-                            <span className="text-[36px] font-[700] text-brand-600">{stat.value}</span>
+                            <span className="text-[36px] font-bold text-brand-600">{stat.value}</span>
                             <span className="text-body font-body text-subtext-color">{stat.label}</span>
                         </div>
                     ))}
@@ -51,7 +51,7 @@ export function AboutSection() {
             <div className="container max-w-none flex w-full flex-col items-center gap-16 pt-24 pb-24">
                 <div className="grid w-full max-w-[1024px] grid-cols-1 gap-12 md:grid-cols-2 items-center">
                     <div className="flex flex-col gap-6">
-                        <span className="text-[32px] font-[600] text-default-font">Our Story</span>
+                        <span className="text-[32px] font-semibold text-default-font">Our Story</span>
                         <div className="flex flex-col gap-4 text-subtext-color text-lg">
                             <p>
                                 Founded in 2024, RealtyEaseAI started with a simple observation: business owners were spending too much time on repetitive tasks and not enough on strategy.

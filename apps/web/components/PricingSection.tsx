@@ -102,7 +102,7 @@ export function PricingSection() {
                     <div className="flex flex-col items-center gap-6 text-center">
                         <h1 className="text-5xl md:text-7xl font-bold leading-tight text-default-font tracking-tight">
                             Choose Your{" "}
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-brand-500 to-brand-400">
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-brand-600 via-brand-500 to-brand-400">
                                 Growth Plan
                             </span>
                         </h1>
@@ -140,14 +140,14 @@ export function PricingSection() {
                         <AnimatedSection key={tier.id} delay={index * 0.1}>
                             <motion.div
                                 className={`flex flex-col gap-6 rounded-2xl border-2 p-8 h-full relative overflow-hidden ${tier.popular
-                                    ? 'border-brand-600 bg-gradient-to-br from-brand-50 to-white dark:from-brand-900/20 dark:to-neutral-800 shadow-2xl'
+                                    ? 'border-brand-600 bg-linear-to-br from-brand-50 to-white dark:from-brand-900/20 dark:to-neutral-800 shadow-2xl'
                                     : 'border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 shadow-lg hover:shadow-2xl'
                                     } transition-all duration-300`}
                                 whileHover={{ y: -8, scale: tier.popular ? 1 : 1.02 }}
                             >
                                 {tier.popular && (
                                     <>
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-brand-400/20 to-transparent rounded-full blur-2xl" />
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-brand-400/20 to-transparent rounded-full blur-2xl" />
                                         <Badge
                                             variant="brand"
                                             className="self-start shadow-lg z-10"
@@ -196,7 +196,7 @@ export function PricingSection() {
                                 <div className="flex flex-col gap-4 z-10 flex-1">
                                     {tier.features.map((feature, idx) => (
                                         <div key={idx} className="flex items-start gap-3">
-                                            <div className="h-5 w-5 rounded-full bg-success-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                            <div className="h-5 w-5 rounded-full bg-success-100 flex items-center justify-center shrink-0 mt-0.5">
                                                 <Icon icon="mdi:check" className="h-3 w-3 text-success-600" />
                                             </div>
                                             <span className="text-sm text-default-font leading-relaxed">
@@ -223,13 +223,13 @@ export function PricingSection() {
                 {/* Coming Soon - AI Tools */}
                 <AnimatedSection className="w-full max-w-[1300px] mt-16 z-10">
                     <motion.div
-                        className="relative overflow-hidden rounded-3xl border-2 border-brand-200 dark:border-brand-700 bg-gradient-to-br from-brand-50 via-white to-brand-50 dark:from-brand-900/20 dark:via-neutral-800 dark:to-brand-900/20 p-12"
+                        className="relative overflow-hidden rounded-3xl border-2 border-brand-200 dark:border-brand-700 bg-linear-to-br from-brand-50 via-white to-brand-50 dark:from-brand-900/20 dark:via-neutral-800 dark:to-brand-900/20 p-12"
                         whileHover={{ scale: 1.01 }}
                         transition={{ duration: 0.3 }}
                     >
                         {/* Background Pattern */}
                         <div className="absolute inset-0 opacity-5">
-                            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+                            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]" />
                         </div>
 
                         <div className="relative z-10 flex flex-col items-center gap-6 text-center">
@@ -283,7 +283,7 @@ export function PricingSection() {
                                         transition={{ delay: i * 0.1 }}
                                         className="flex flex-col items-center gap-3 p-6 rounded-xl bg-white/80 dark:bg-neutral-800/80 backdrop-blur-sm border border-brand-200 dark:border-brand-700 hover:border-brand-400 hover:shadow-lg transition-all duration-300"
                                     >
-                                        <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center shadow-md">
+                                        <div className="h-12 w-12 rounded-xl bg-linear-to-br from-brand-500 to-brand-600 flex items-center justify-center shadow-md">
                                             <Icon icon={tool.icon} className="h-6 w-6 text-white" />
                                         </div>
                                         <h3 className="font-bold text-default-font">{tool.title}</h3>
@@ -353,7 +353,7 @@ export function PricingSection() {
                                     className="flex flex-col items-center gap-4 p-8 rounded-2xl bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 hover:border-brand-300 hover:shadow-xl transition-all duration-300 text-center"
                                     whileHover={{ y: -5 }}
                                 >
-                                    <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center shadow-lg">
+                                    <div className="h-16 w-16 rounded-2xl bg-linear-to-br from-brand-500 to-brand-600 flex items-center justify-center shadow-lg">
                                         <Icon icon={item.icon} className="h-8 w-8 text-white" />
                                     </div>
                                     <h3 className="text-xl font-bold text-default-font">{item.title}</h3>

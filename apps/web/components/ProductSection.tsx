@@ -17,10 +17,10 @@ export function ProductSection() {
                         Powered by Human Intelligence & AI
                     </span>
                     <div className="flex flex-col items-center gap-4">
-                        <span className="text-[56px] font-[600] leading-[64px] text-default-font">
+                        <span className="text-[56px] font-semibold leading-[64px] text-default-font">
                             The Ultimate Hybrid Workforce
                         </span>
-                        <span className="text-[20px] font-[400] leading-[28px] text-subtext-color">
+                        <span className="text-[20px] font-normal leading-[28px] text-subtext-color">
                             Combine the creativity and empathy of expert Virtual Assistants with the speed and precision of cutting-edge AI tools.
                         </span>
                     </div>
@@ -30,10 +30,10 @@ export function ProductSection() {
             {/* Features Grid */}
             <div className="container max-w-none flex w-full flex-col items-center gap-16 bg-neutral-50 dark:bg-neutral-900 pt-24 pb-24">
                 <div className="flex w-full max-w-[768px] flex-col items-center gap-4 text-center">
-                    <span className="text-[40px] font-[600] leading-[48px] text-default-font">
+                    <span className="text-[40px] font-semibold leading-[48px] text-default-font">
                         Everything You Need to Scale
                     </span>
-                    <span className="text-[18px] font-[400] leading-[26px] text-subtext-color">
+                    <span className="text-[18px] font-normal leading-[26px] text-subtext-color">
                         A complete suite of services and tools designed for modern businesses.
                     </span>
                 </div>
@@ -89,7 +89,7 @@ export function ProductSection() {
             {/* CTA */}
             <div className="container max-w-none flex w-full flex-col items-center gap-8 bg-brand-primary pt-24 pb-24">
                 <div className="flex w-full max-w-[768px] flex-col items-center gap-6 text-center">
-                    <span className="text-[48px] font-[600] leading-[56px] text-white">
+                    <span className="text-[48px] font-semibold leading-[56px] text-white">
                         Ready to transform your workflow?
                     </span>
                     <div className="flex items-center gap-4">

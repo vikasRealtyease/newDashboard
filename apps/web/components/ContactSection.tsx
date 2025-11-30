@@ -19,10 +19,10 @@ export function ContactSection() {
                         Get in Touch
                     </Badge>
                     <div className="flex flex-col items-center gap-4">
-                        <span className="text-[56px] font-[600] leading-[64px] text-default-font">
+                        <span className="text-[56px] font-semibold leading-[64px] text-default-font">
                             We'd Love to Hear from You
                         </span>
-                        <span className="text-[20px] font-[400] leading-[28px] text-subtext-color">
+                        <span className="text-[20px] font-normal leading-[28px] text-subtext-color">
                             Have questions about our services or pricing? Our team is ready to help.
                         </span>
                     </div>
@@ -32,7 +32,7 @@ export function ContactSection() {
                     {/* Contact Info */}
                     <div className="flex flex-col gap-8">
                         <div className="flex flex-col gap-6">
-                            <span className="text-[24px] font-[600] text-default-font">Contact Information</span>
+                            <span className="text-[24px] font-semibold text-default-font">Contact Information</span>
                             <div className="flex flex-col gap-6">
                                 {[
                                     { icon: <Icon icon="ic:baseline-location-on" className="h-5 w-5" />, title: "Office", desc: "123 Innovation Dr, Tech City, TC 90210" },
@@ -65,7 +65,7 @@ export function ContactSection() {
                     {/* Form */}
                     <div className="flex flex-col gap-6 rounded-lg border border-neutral-border dark:border-neutral-700 bg-default-background p-8 shadow-sm">
                         <div className="flex flex-col gap-2">
-                            <span className="text-[24px] font-[600] text-default-font">Send us a message</span>
+                            <span className="text-[24px] font-semibold text-default-font">Send us a message</span>
                             <span className="text-body font-body text-subtext-color">We usually respond within 24 hours.</span>
                         </div>
 

@@ -43,7 +43,7 @@ export default function Home() {
           <div className="flex flex-col items-center gap-6">
             <h1 className="text-5xl md:text-7xl font-bold leading-tight text-default-font tracking-tight">
               Scale Your Business with <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-brand-500 to-brand-400 animate-gradient">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-brand-600 via-brand-500 to-brand-400 animate-gradient">
                 Human Empathy & AI Speed
               </span>
             </h1>
@@ -131,7 +131,7 @@ export default function Home() {
       </div>
 
       {/* How It Works Section - NEW */}
-      <div className="w-full bg-gradient-to-b from-white to-neutral-50 dark:from-neutral-900 dark:to-neutral-800 py-24 relative overflow-hidden">
+      <div className="w-full bg-linear-to-b from-white to-neutral-50 dark:from-neutral-900 dark:to-neutral-800 py-24 relative overflow-hidden">
         <GridPattern className="opacity-20" />
 
         <div className="container max-w-none relative z-10">
@@ -176,7 +176,7 @@ export default function Home() {
       </div>
 
       {/* USP Section - AI Tools */}
-      <div className="w-full bg-gradient-to-b from-neutral-50 via-white to-neutral-50 dark:from-neutral-800 dark:via-neutral-900 dark:to-neutral-800 py-24 relative overflow-hidden">
+      <div className="w-full bg-linear-to-b from-neutral-50 via-white to-neutral-50 dark:from-neutral-800 dark:via-neutral-900 dark:to-neutral-800 py-24 relative overflow-hidden">
         <GradientBlob className="top-0 right-1/4 w-[500px] h-[500px]" color="brand" animate={false} />
         <GradientBlob className="bottom-0 left-1/4 w-[600px] h-[600px]" color="purple" animate={false} />
 
@@ -269,9 +269,9 @@ export default function Home() {
                   className="flex h-full flex-col items-start gap-4 rounded-2xl border-2 border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 p-8 shadow-md hover:shadow-2xl transition-all duration-300 relative overflow-hidden"
                   whileHover={{ y: -8, scale: 1.02 }}
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                  <div className={`absolute inset-0 bg-linear-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
 
-                  <div className={`h-14 w-14 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow relative z-10`}>
+                  <div className={`h-14 w-14 rounded-xl bg-linear-to-br ${service.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow relative z-10`}>
                     <Icon icon={service.icon} className="h-7 w-7 text-white" />
                   </div>
 
@@ -370,12 +370,12 @@ export default function Home() {
                 {/* Background Patterns */}
                 {feature.bgPattern === 'dots' && (
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05)_1px,transparent_1px)] bg-[size:20px_20px]" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.05)_1px,transparent_1px)] bg-size-[20px_20px]" />
                   </div>
                 )}
                 {feature.bgPattern === 'grid' && (
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-[size:20px_20px]" />
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(16,185,129,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(16,185,129,0.05)_1px,transparent_1px)] bg-size-[20px_20px]" />
                   </div>
                 )}
                 {feature.bgPattern === 'diagonal' && (
@@ -393,12 +393,12 @@ export default function Home() {
                 {/* Icon with unique styling */}
                 <div className="relative z-10">
                   <motion.div
-                    className={`h-20 w-20 rounded-2xl bg-gradient-to-br ${feature.iconBg} flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 relative`}
+                    className={`h-20 w-20 rounded-2xl bg-linear-to-br ${feature.iconBg} flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 relative`}
                     whileHover={{ rotate: [0, -5, 5, -5, 0], scale: 1.1 }}
                     transition={{ duration: 0.5 }}
                   >
                     {/* Glow effect */}
-                    <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.iconBg} opacity-0 group-hover:opacity-50 blur-xl transition-opacity duration-300`} />
+                    <div className={`absolute inset-0 rounded-2xl bg-linear-to-br ${feature.iconBg} opacity-0 group-hover:opacity-50 blur-xl transition-opacity duration-300`} />
                     <Icon icon={feature.icon} className="h-10 w-10 text-white relative z-10" />
                   </motion.div>
                 </div>
@@ -413,7 +413,7 @@ export default function Home() {
                 </div>
 
                 {/* Decorative corner accent */}
-                <div className={`absolute top-0 right-0 w-16 h-16 bg-gradient-to-br ${feature.iconBg} opacity-0 group-hover:opacity-10 rounded-bl-full transition-opacity duration-300`} />
+                <div className={`absolute top-0 right-0 w-16 h-16 bg-linear-to-br ${feature.iconBg} opacity-0 group-hover:opacity-10 rounded-bl-full transition-opacity duration-300`} />
               </motion.div>
             </AnimatedSection>
           ))}
@@ -421,7 +421,7 @@ export default function Home() {
       </div>
 
       {/* Testimonials */}
-      <div className="container max-w-none flex w-full flex-col items-center gap-16 bg-gradient-to-b from-white to-neutral-50 dark:from-neutral-900 dark:to-neutral-800 pt-24 pb-24 relative overflow-hidden">
+      <div className="container max-w-none flex w-full flex-col items-center gap-16 bg-linear-to-b from-white to-neutral-50 dark:from-neutral-900 dark:to-neutral-800 pt-24 pb-24 relative overflow-hidden">
         <GradientBlob className="top-0 right-20 w-[500px] h-[500px]" color="success" animate={false} />
 
         <SectionHeader
@@ -463,7 +463,7 @@ export default function Home() {
       <FAQSection />
 
       {/* Final CTA */}
-      <div className="w-full bg-gradient-to-br from-brand-600 via-brand-500 to-brand-700 py-32 relative overflow-hidden">
+      <div className="w-full bg-linear-to-br from-brand-600 via-brand-500 to-brand-700 py-32 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.08),transparent_50%)]" />
         <GradientBlob className="top-0 left-0 w-[600px] h-[600px]" color="warning" />
@@ -493,7 +493,7 @@ export default function Home() {
                   size="large"
                   variant="neutral-secondary"
                   iconRight={<Icon icon="mdi:arrow-right" className="h-5 w-5" />}
-                  className="h-14 px-10 text-lg font-semibold bg-white hover:bg-neutral-50 shadow-2xl transition-all [&>span]:!text-black"
+                  className="h-14 px-10 text-lg font-semibold bg-white hover:bg-neutral-50 shadow-2xl transition-all [&>span]:text-black!"
                 >
                   Get Started for Free
                 </Button>

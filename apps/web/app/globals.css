@@ -1,4 +1,7 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+/* Custom Variant for Mobile */
+@custom-variant mobile (@media (max-width: 767px));
 
 @theme {
   /* Brand Colors */
@@ -118,21 +121,24 @@
   --text-monospace-body--line-height: 20px;
 
   /* Font Families */
-  --font-caption: "Inter";
-  --font-caption-bold: "Inter";
-  --font-body: "Inter";
-  --font-body-bold: "Inter";
-  --font-heading-3: "Inter";
-  --font-heading-2: "Inter";
-  --font-heading-1: "Inter";
-  --font-monospace-body: "JetBrains Mono";
+  --font-caption: 'Inter';
+  --font-caption-bold: 'Inter';
+  --font-body: 'Inter';
+  --font-body-bold: 'Inter';
+  --font-heading-3: 'Inter';
+  --font-heading-2: 'Inter';
+  --font-heading-1: 'Inter';
+  --font-monospace-body: 'JetBrains Mono';
 
   /* Box Shadows */
   --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
   --shadow-default: 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0px 4px 16px -2px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0px 12px 32px -4px rgba(0, 0, 0, 0.1), 0px 4px 8px -2px rgba(0, 0, 0, 0.06);
-  --shadow-overlay: 0px 12px 32px -4px rgba(0, 0, 0, 0.1), 0px 4px 8px -2px rgba(0, 0, 0, 0.06);
+  --shadow-md:
+    0px 4px 16px -2px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0px 12px 32px -4px rgba(0, 0, 0, 0.1), 0px 4px 8px -2px rgba(0, 0, 0, 0.06);
+  --shadow-overlay:
+    0px 12px 32px -4px rgba(0, 0, 0, 0.1), 0px 4px 8px -2px rgba(0, 0, 0, 0.06);
 
   /* Border Radiuses */
   --radius-sm: 8px;
@@ -151,6 +157,37 @@
   /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+/* Container Utility */
+@utility container {
+  padding-left: 16px;
+  padding-right: 16px;
+
+  @media (width >=theme(--breakpoint-sm)) {
+    padding-left: calc((100vw + 16px - 640px) / 2);
+    padding-right: calc((100vw + 16px - 640px) / 2);
+  }
+
+  @media (width >=theme(--breakpoint-md)) {
+    padding-left: calc((100vw + 16px - 768px) / 2);
+    padding-right: calc((100vw + 16px - 768px) / 2);
+  }
+
+  @media (width >=theme(--breakpoint-lg)) {
+    padding-left: calc((100vw + 16px - 1024px) / 2);
+    padding-right: calc((100vw + 16px - 1024px) / 2);
+  }
+
+  @media (width >=theme(--breakpoint-xl)) {
+    padding-left: calc((100vw + 16px - 1280px) / 2);
+    padding-right: calc((100vw + 16px - 1280px) / 2);
+  }
+
+  @media (width >=theme(--breakpoint-2xl)) {
+    padding-left: calc((100vw + 16px - 1536px) / 2);
+    padding-right: calc((100vw + 16px - 1536px) / 2);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -206,40 +243,6 @@ html {
   outline-offset: 2px;
 }
 
-/* Container Utility */
-@utility container {
-  padding-left: 16px;
-  padding-right: 16px;
-
-  @media (width >=theme(--breakpoint-sm)) {
-    padding-left: calc((100vw + 16px - 640px) / 2);
-    padding-right: calc((100vw + 16px - 640px) / 2);
-  }
-
-  @media (width >=theme(--breakpoint-md)) {
-    padding-left: calc((100vw + 16px - 768px) / 2);
-    padding-right: calc((100vw + 16px - 768px) / 2);
-  }
-
-  @media (width >=theme(--breakpoint-lg)) {
-    padding-left: calc((100vw + 16px - 1024px) / 2);
-    padding-right: calc((100vw + 16px - 1024px) / 2);
-  }
-
-  @media (width >=theme(--breakpoint-xl)) {
-    padding-left: calc((100vw + 16px - 1280px) / 2);
-    padding-right: calc((100vw + 16px - 1280px) / 2);
-  }
-
-  @media (width >=theme(--breakpoint-2xl)) {
-    padding-left: calc((100vw + 16px - 1536px) / 2);
-    padding-right: calc((100vw + 16px - 1536px) / 2);
-  }
-}
-
-/* Custom Variant for Mobile */
-@custom-variant mobile (@media (max-width: 767px));
-
 /* Form Input Utilities */
 @layer utilities {
   .input-field {
@@ -275,7 +278,7 @@ html {
 
   /* Gradient Text */
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r;
+    @apply bg-clip-text text-transparent bg-linear-to-r;
   }
 
   /* Mesh Gradient Background */

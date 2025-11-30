@@ -56,13 +56,13 @@ export function ProcessStep({ number, title, description, icon, delay = 0 }: Pro
             className="relative flex gap-6 group"
         >
             {/* Number Badge */}
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
                 <div className="relative">
-                    <div className="h-16 w-16 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <div className="h-16 w-16 rounded-full bg-linear-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                         {number}
                     </div>
                     {/* Connecting Line */}
-                    <div className="absolute top-16 left-1/2 -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-brand-300 to-transparent" />
+                    <div className="absolute top-16 left-1/2 -translate-x-1/2 w-0.5 h-full bg-linear-to-b from-brand-300 to-transparent" />
                 </div>
             </div>
 
@@ -113,7 +113,7 @@ export function PricingCard({
             transition={{ duration: 0.6 }}
             whileHover={{ y: -8 }}
             className={`relative overflow-hidden rounded-3xl p-8 transition-all duration-300 ${highlighted
-                ? 'bg-gradient-to-br from-brand-600 to-brand-700 text-white shadow-2xl scale-105 border-2 border-brand-400'
+                ? 'bg-linear-to-br from-brand-600 to-brand-700 text-white shadow-2xl scale-105 border-2 border-brand-400'
                 : 'bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 hover:border-brand-300 hover:shadow-xl'
                 }`}
         >
@@ -157,7 +157,7 @@ export function PricingCard({
                 <div className="flex flex-col gap-3 pt-6 border-t border-white/20">
                     {features.map((feature, index) => (
                         <div key={index} className="flex items-start gap-3">
-                            <svg className={`h-5 w-5 flex-shrink-0 mt-0.5 ${highlighted ? 'text-brand-200' : 'text-success-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className={`h-5 w-5 shrink-0 mt-0.5 ${highlighted ? 'text-brand-200' : 'text-success-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             <span className={`text-sm ${highlighted ? 'text-brand-50' : 'text-default-font'}`}>

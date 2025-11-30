@@ -54,7 +54,7 @@ const faqs = [
 
 export function FAQSection() {
     return (
-        <div className="w-full bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-900 dark:to-neutral-950 py-24 relative overflow-hidden">
+        <div className="w-full bg-linear-to-b from-neutral-50 to-white dark:from-neutral-900 dark:to-neutral-950 py-24 relative overflow-hidden">
             {/* Background decorations */}
             <div className="absolute inset-0 opacity-30">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(28,162,220,0.08),transparent_50%)]" />
@@ -124,7 +124,7 @@ export function FAQSection() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.4 }}
                 >
-                    <div className="inline-flex flex-col items-center gap-4 p-8 rounded-2xl bg-gradient-to-br from-brand-50 to-purple-50 dark:from-brand-900/20 dark:to-purple-900/20 border border-brand-200 dark:border-brand-700">
+                    <div className="inline-flex flex-col items-center gap-4 p-8 rounded-2xl bg-linear-to-br from-brand-50 to-purple-50 dark:from-brand-900/20 dark:to-purple-900/20 border border-brand-200 dark:border-brand-700">
                         <div className="flex items-center gap-2 text-default-font">
                             <Icon icon="mdi:chat-question" className="h-6 w-6 text-brand-600" />
                             <h3 className="text-xl font-bold">Still have questions?</h3>

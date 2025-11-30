@@ -22,10 +22,10 @@ export function StatCard({ icon, value, label, gradient, delay = 0 }: StatCardPr
             className="group relative overflow-hidden rounded-2xl bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 p-6 hover:border-brand-300 transition-all duration-300 hover:shadow-xl"
         >
             {/* Gradient Background on Hover */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+            <div className={`absolute inset-0 bg-linear-to-br ${gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
 
             <div className="relative z-10 flex flex-col gap-4">
-                <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`h-12 w-12 rounded-xl bg-linear-to-br ${gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                     <Icon icon={icon} className="h-6 w-6 text-white" />
                 </div>
                 <div>
@@ -56,15 +56,15 @@ export function FeatureCard({ icon, title, description, gradient, delay = 0 }: F
             className="group relative overflow-hidden rounded-2xl bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 p-8 hover:border-brand-300 transition-all duration-300 hover:shadow-2xl"
         >
             {/* Animated Gradient Background */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+            <div className={`absolute inset-0 bg-linear-to-br ${gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
 
             {/* Spotlight Effect */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <div className="absolute top-0 left-0 w-full h-full bg-linear-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             </div>
 
             <div className="relative z-10 flex flex-col gap-4">
-                <div className={`h-14 w-14 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300`}>
+                <div className={`h-14 w-14 rounded-xl bg-linear-to-br ${gradient} flex items-center justify-center shadow-lg group-hover:shadow-2xl group-hover:scale-110 transition-all duration-300`}>
                     <Icon icon={icon} className="h-7 w-7 text-white" />
                 </div>
                 <div>
@@ -105,11 +105,11 @@ export function BentoCard({ icon, title, description, gradient, size = "medium",
             className={`group relative overflow-hidden rounded-3xl bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 p-8 hover:border-brand-300 transition-all duration-500 hover:shadow-2xl ${sizeClasses[size]}`}
         >
             {/* Animated Mesh Gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-500`} />
+            <div className={`absolute inset-0 bg-linear-to-br ${gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-500`} />
 
             <div className="relative z-10 h-full flex flex-col">
                 <div className="flex items-start gap-4 mb-4">
-                    <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`h-12 w-12 rounded-xl bg-linear-to-br ${gradient} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                         <Icon icon={icon} className="h-6 w-6 text-white" />
                     </div>
                     <div className="flex-1">
@@ -163,7 +163,7 @@ export function TestimonialCard({ quote, author, role, company, avatar, gradient
 
                 {/* Author */}
                 <div className="flex items-center gap-4 pt-4 border-t border-neutral-200 dark:border-neutral-700">
-                    <div className={`h-12 w-12 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center font-bold text-white shadow-lg`}>
+                    <div className={`h-12 w-12 rounded-full bg-linear-to-br ${gradient} flex items-center justify-center font-bold text-white shadow-lg`}>
                         {author[0]}
                     </div>
                     <div>

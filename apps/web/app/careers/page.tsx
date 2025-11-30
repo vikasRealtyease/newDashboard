@@ -20,10 +20,10 @@ export default function CareersPage() {
                         We're Hiring
                     </Badge>
                     <div className="flex flex-col items-center gap-4">
-                        <h1 className="text-[56px] font-[600] leading-[64px] text-default-font">
+                        <h1 className="text-[56px] font-semibold leading-[64px] text-default-font">
                             Join the Future of Work
                         </h1>
-                        <p className="text-[20px] font-[400] leading-[28px] text-subtext-color">
+                        <p className="text-[20px] font-normal leading-[28px] text-subtext-color">
                             Help us build the world's most advanced hybrid workforce platform.
                         </p>
                     </div>

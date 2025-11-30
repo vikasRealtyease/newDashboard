@@ -49,7 +49,7 @@ export default function ServicePage({ params }: { params: Promise<{ slug: string
                     <div className="flex flex-col items-center gap-6">
                         <h1 className="text-5xl md:text-7xl font-bold leading-tight text-default-font tracking-tight">
                             {service.title} <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-brand-500 to-brand-400">
+                            <span className="text-transparent bg-clip-text bg-linear-to-r from-brand-600 via-brand-500 to-brand-400">
                                 Services
                             </span>
                         </h1>
@@ -82,7 +82,7 @@ export default function ServicePage({ params }: { params: Promise<{ slug: string
             </div>
 
             {/* Content */}
-            <div className="container max-w-none flex w-full flex-col items-center gap-16 bg-gradient-to-b from-neutral-50 to-white pt-24 pb-24 relative overflow-hidden">
+            <div className="container max-w-none flex w-full flex-col items-center gap-16 bg-linear-to-b from-neutral-50 to-white pt-24 pb-24 relative overflow-hidden">
                 <GradientBlob className="top-20 right-10 w-[400px] h-[400px]" color="warning" animate={false} />
 
                 <div className="grid w-full max-w-[1200px] grid-cols-1 gap-16 md:grid-cols-2 items-start z-10">
@@ -109,13 +109,13 @@ export default function ServicePage({ params }: { params: Promise<{ slug: string
                                 whileHover={{ y: -5, scale: 1.02 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                                <div className="absolute inset-0 bg-linear-to-br from-brand-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
                                 <img
                                     src={service.heroImage}
                                     alt={service.title}
                                     className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
                                 />
-                                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/30 to-transparent" />
+                                <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-black/30 to-transparent" />
                             </motion.div>
                         </div>
                     </AnimatedSection>
@@ -134,7 +134,7 @@ export default function ServicePage({ params }: { params: Promise<{ slug: string
                                         transition={{ delay: i * 0.05 }}
                                         whileHover={{ x: 4 }}
                                     >
-                                        <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform shadow-md">
+                                        <div className="h-8 w-8 rounded-lg bg-linear-to-br from-brand-500 to-brand-600 flex items-center justify-center shrink-0 mt-0.5 group-hover:scale-110 transition-transform shadow-md">
                                             <Icon icon="mdi:check" className="h-5 w-5 text-white" />
                                         </div>
                                         <span className="text-base font-medium text-default-font flex-1">{feature}</span>
@@ -171,7 +171,7 @@ export default function ServicePage({ params }: { params: Promise<{ slug: string
                                 className="flex flex-col gap-4 p-8 rounded-2xl border-2 border-neutral-200 bg-white hover:border-brand-300 hover:shadow-xl transition-all duration-300 h-full group"
                                 whileHover={{ y: -5 }}
                             >
-                                <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white text-xl font-bold shadow-lg group-hover:shadow-xl transition-shadow">
+                                <div className="h-14 w-14 rounded-xl bg-linear-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white text-xl font-bold shadow-lg group-hover:shadow-xl transition-shadow">
                                     {i + 1}
                                 </div>
                                 <h3 className="text-xl font-bold text-default-font group-hover:text-brand-600 transition-colors">
@@ -184,7 +184,7 @@ export default function ServicePage({ params }: { params: Promise<{ slug: string
             </div>
 
             {/* CTA Section */}
-            <div className="w-full bg-gradient-to-br from-brand-600 via-brand-500 to-brand-700 py-24 relative overflow-hidden">
+            <div className="w-full bg-linear-to-br from-brand-600 via-brand-500 to-brand-700 py-24 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
                 <GradientBlob className="top-0 right-0 w-[500px] h-[500px]" color="warning" />
 
@@ -202,8 +202,8 @@ export default function ServicePage({ params }: { params: Promise<{ slug: string
                                 <Button
                                     size="large"
                                     variant="neutral-secondary"
-                                    iconRight={<Icon icon="mdi:arrow-right" className="h-5 w-5 !text-black" />}
-                                    className="h-14 px-10 text-lg font-semibold shadow-2xl bg-white hover:bg-neutral-50 [&>span]:!text-black"
+                                    iconRight={<Icon icon="mdi:arrow-right" className="h-5 w-5 text-black!" />}
+                                    className="h-14 px-10 text-lg font-semibold shadow-2xl bg-white hover:bg-neutral-50 [&>span]:text-black!"
                                 >
                                     Get Started Now
                                 </Button>

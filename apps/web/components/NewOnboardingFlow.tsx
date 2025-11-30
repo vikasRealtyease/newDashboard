@@ -134,7 +134,7 @@ export function NewOnboardingFlow() {
     };
 
     return (
-        <div className="min-h-screen w-full bg-gradient-to-br from-neutral-50 via-white to-neutral-50 flex items-center justify-center py-12">
+        <div className="min-h-screen w-full bg-linear-to-br from-neutral-50 via-white to-neutral-50 flex items-center justify-center py-12">
             <div className="container max-w-4xl mx-auto px-4 w-full">
                 {/* Progress Header */}
                 <div className="mb-12">

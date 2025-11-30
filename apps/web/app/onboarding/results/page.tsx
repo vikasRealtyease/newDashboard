@@ -127,7 +127,7 @@ export default function OnboardingResults() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="bg-gradient-to-br from-brand-50 to-white rounded-2xl border-2 border-brand-200 p-8 mb-8"
+                    className="bg-linear-to-br from-brand-50 to-white rounded-2xl border-2 border-brand-200 p-8 mb-8"
                 >
                     <div className="grid md:grid-cols-3 gap-8 text-center">
                         <div>
@@ -177,7 +177,7 @@ export default function OnboardingResults() {
                             </h3>
                             {tier.features.map((feature, idx) => (
                                 <div key={idx} className="flex items-start gap-3">
-                                    <div className="h-6 w-6 rounded-full bg-success-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <div className="h-6 w-6 rounded-full bg-success-100 flex items-center justify-center shrink-0 mt-0.5">
                                         <Icon icon="mdi:check" className="h-4 w-4 text-success-600" />
                                     </div>
                                     <span className="text-default-font">{feature}</span>
@@ -210,7 +210,7 @@ export default function OnboardingResults() {
                     </h3>
                     <div className="grid md:grid-cols-2 gap-6">
                         <div className="flex gap-4">
-                            <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center flex-shrink-0">
+                            <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center shrink-0">
                                 <Icon icon="mdi:check-circle" className="h-5 w-5 text-brand-600" />
                             </div>
                             <div>
@@ -221,7 +221,7 @@ export default function OnboardingResults() {
                             </div>
                         </div>
                         <div className="flex gap-4">
-                            <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center flex-shrink-0">
+                            <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center shrink-0">
                                 <Icon icon="mdi:trending-up" className="h-5 w-5 text-brand-600" />
                             </div>
                             <div>
@@ -232,7 +232,7 @@ export default function OnboardingResults() {
                             </div>
                         </div>
                         <div className="flex gap-4">
-                            <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center flex-shrink-0">
+                            <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center shrink-0">
                                 <Icon icon="mdi:currency-usd" className="h-5 w-5 text-brand-600" />
                             </div>
                             <div>
@@ -243,7 +243,7 @@ export default function OnboardingResults() {
                             </div>
                         </div>
                         <div className="flex gap-4">
-                            <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center flex-shrink-0">
+                            <div className="h-10 w-10 rounded-lg bg-brand-100 flex items-center justify-center shrink-0">
                                 <Icon icon="mdi:flash" className="h-5 w-5 text-brand-600" />
                             </div>
                             <div>
