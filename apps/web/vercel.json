@@ -1,12 +1,14 @@
 {
-    "buildCommand": "cd ../.. && pnpm install && pnpm build --filter=@realtyeaseai/web",
-    "devCommand": "pnpm dev",
-    "installCommand": "pnpm install",
+    "buildCommand": "turbo build --filter=@realtyeaseai/web",
+    "installCommand": "pnpm install --frozen-lockfile",
     "framework": "nextjs",
     "outputDirectory": ".next",
     "regions": [
         "iad1"
     ],
+    "env": {
+        "NEXT_TELEMETRY_DISABLED": "1"
+    },
     "headers": [
         {
             "source": "/(.*)",
