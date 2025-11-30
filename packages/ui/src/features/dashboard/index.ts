@@ -7,3 +7,4 @@ export * from "./MessagingCenter";
 export * from "./AIToolsHub";
 export * from "./SuperAdminPanel";
 export * from "./TaskManagement";
+export * from "./role-dashboards";

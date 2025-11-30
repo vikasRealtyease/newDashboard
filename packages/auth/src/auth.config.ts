@@ -6,18 +6,12 @@ export const authConfig = {
         signIn: '/login',
     },
     callbacks: {
-        authorized({ auth, request: { nextUrl } }) {
-            const isLoggedIn = !!auth?.user;
-            const isOnDashboard = nextUrl.pathname.startsWith('/dashboard') || nextUrl.pathname === '/';
-            if (isOnDashboard) {
-                if (isLoggedIn) return true;
-                return false; // Redirect unauthenticated users to login page
-            } else if (isLoggedIn) {
-                // If logged in and on login page, redirect to dashboard
-                // Note: This logic might need refinement based on user role
-                return true;
-            }
-            return true;
+        // Note: Authorization is now handled by middleware.ts in each app
+        // This allows for role-based subdomain routing and better control
+        authorized({ auth }) {
+            // Simply check if user is authenticated
+            // Middleware will handle role-based routing
+            return !!auth?.user;
         },
     },
     providers: [], // Add providers with an empty array for now

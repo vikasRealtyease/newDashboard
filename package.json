@@ -9,10 +9,7 @@
     "scripts": {
         "dev": "turbo dev",
         "dev:web": "npm run dev --workspace=@realtyeaseai/web",
-        "dev:admin": "npm run dev --workspace=@realtyeaseai/admin",
-        "dev:client": "npm run dev --workspace=@realtyeaseai/client",
-        "dev:manager": "npm run dev --workspace=@realtyeaseai/manager",
-        "dev:va": "npm run dev --workspace=@realtyeaseai/va",
+        "dev:app": "npm run dev --workspace=@realtyeaseai/app",
         "build": "turbo build",
         "lint": "turbo lint",
         "type-check": "turbo type-check",
