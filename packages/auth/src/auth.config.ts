@@ -3,9 +3,7 @@ import type { NextAuthConfig } from "next-auth"
 export const authConfig = {
     trustHost: true, // Required for production deployments behind reverse proxy
     pages: {
-        signIn: process.env.NODE_ENV === 'production'
-            ? 'https://realtyeaseai.com/login'
-            : 'http://localhost:4000/login',
+        signIn: '/login',
     },
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {

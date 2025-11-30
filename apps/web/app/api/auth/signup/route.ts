@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@realtyeaseai/database';
+import { PrismaClient } from '@realtyeaseai/database';
 import bcrypt from 'bcryptjs';
+
+const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
     try {

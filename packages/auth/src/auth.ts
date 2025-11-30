@@ -19,10 +19,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
                 if (parsedCredentials.success) {
                     const { email, password } = parsedCredentials.data;
-                    const user = await prisma.user.findUnique({
-                        where: { email },
-                        include: { roles: true }
-                    });
+                    const user = await prisma.user.findUnique({ where: { email } });
                     if (!user) return null;
 
                     // If user has no password (e.g. OAuth), return null
@@ -36,34 +33,4 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
             },
         }),
     ],
-    callbacks: {
-        async jwt({ token, user }) {
-            if (user) {
-                token.id = user.id;
-                // @ts-ignore
-                token.roles = user.roles;
-            }
-            return token;
-        },
-        async session({ session, token }) {
-            if (token && session.user) {
-                session.user.id = token.id as string;
-                // @ts-ignore
-                session.user.roles = token.roles;
-            }
-            return session;
-        },
-    },
-    cookies: {
-        sessionToken: {
-            name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.session-token`,
-            options: {
-                httpOnly: true,
-                sameSite: 'lax',
-                path: '/',
-                secure: process.env.NODE_ENV === 'production',
-                domain: process.env.NODE_ENV === 'production' ? '.realtyeaseai.com' : undefined,
-            },
-        },
-    },
 })

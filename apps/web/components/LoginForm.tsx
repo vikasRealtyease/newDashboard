@@ -6,11 +6,7 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { toast } from "@realtyeaseai/ui";
 
-interface LoginFormProps {
-    onSubmit?: (values: any) => Promise<any>;
-}
-
-export function LoginForm({ onSubmit }: LoginFormProps) {
+export function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
@@ -23,14 +19,29 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         setLoading(true);
 
         try {
-            if (onSubmit) {
-                const result = await onSubmit({ email, password });
-                if (result?.error) {
-                    setError(result.error);
-                } else {
-                    toast.success('Login successful!');
-                    // Redirect is handled by the server action or middleware
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Store user data in localStorage if remember me is checked
+                if (rememberMe) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
                 }
+
+                // Show success message
+                toast.success('Login successful!');
+
+                // Redirect to dashboard
+                if (data.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                }
+            } else {
+                setError(data.error || 'Login failed');
             }
         } catch (err) {
             setError('An error occurred. Please try again.');
