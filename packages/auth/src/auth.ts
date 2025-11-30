@@ -11,28 +11,60 @@ import type { UserRoleWithPrimary } from "./types"
 export const { auth, signIn, signOut, handlers } = NextAuth({
     ...authConfig,
     adapter: PrismaAdapter(prisma),
-    session: { strategy: "jwt" },
+    session: {
+        strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+    },
+    cookies: {
+        sessionToken: {
+            name: `__Secure-next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                domain: process.env.NODE_ENV === 'production'
+                    ? '.realtyeaseai.com'  // Share cookies across subdomains
+                    : undefined,
+                secure: process.env.NODE_ENV === 'production',
+            },
+        },
+    },
+    debug: process.env.NODE_ENV === 'development',
     providers: [
         Credentials({
             async authorize(credentials) {
-                const parsedCredentials = z
-                    .object({ email: z.string().email(), password: z.string().min(6) })
-                    .safeParse(credentials);
+                try {
+                    const parsedCredentials = z
+                        .object({ email: z.string().email(), password: z.string().min(6) })
+                        .safeParse(credentials);
 
-                if (parsedCredentials.success) {
+                    if (!parsedCredentials.success) {
+                        console.error("Credentials validation failed:", parsedCredentials.error);
+                        return null;
+                    }
+
                     const { email, password } = parsedCredentials.data;
+
                     const user = await prisma.user.findUnique({
                         where: { email },
                         include: {
                             roles: true
                         }
                     });
-                    if (!user) return null;
+
+                    if (!user) {
+                        console.error("User not found:", email);
+                        return null;
+                    }
 
                     // If user has no password (e.g. OAuth), return null
-                    if (!user.password) return null;
+                    if (!user.password) {
+                        console.error("User has no password:", email);
+                        return null;
+                    }
 
                     const passwordsMatch = await bcrypt.compare(password, user.password);
+
                     if (passwordsMatch) {
                         // Update last login timestamp
                         await prisma.user.update({
@@ -40,15 +72,21 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                             data: { lastLoginAt: new Date() }
                         });
 
+                        console.log("Login successful for:", email);
+
                         // Return user with roles
                         return {
                             ...user,
                             roles: user.roles.map(r => ({ role: r.role, isPrimary: r.isPrimary }))
                         };
                     }
+
+                    console.error("Password mismatch for:", email);
+                    return null;
+                } catch (error) {
+                    console.error("Authorization error:", error);
+                    return null;
                 }
-                console.log("Invalid credentials");
-                return null;
             },
         }),
     ],
