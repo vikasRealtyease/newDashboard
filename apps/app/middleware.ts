@@ -2,26 +2,16 @@ import { auth } from "@realtyeaseai/auth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PUBLIC_ROUTES = ["/login"];
-const PROTECTED_ROUTES = ["/", "/dashboard"];
+const WEB_URL = process.env.NEXT_PUBLIC_WEB_URL || "https://realtyeaseai.com";
 
 export default async function middleware(request: NextRequest) {
     const session = await auth();
-    const { pathname } = request.nextUrl;
 
-    // Allow access to public routes
-    if (PUBLIC_ROUTES.some(route => pathname.startsWith(route))) {
-        // If already logged in and trying to access login, redirect to dashboard
-        if (session?.user && pathname.startsWith("/login")) {
-            return NextResponse.redirect(new URL("/dashboard", request.url));
-        }
-        return NextResponse.next();
-    }
-
-    // Protect all other routes - require authentication
+    // All routes on app.realtyeaseai.com require authentication
     if (!session?.user) {
-        const loginUrl = new URL("/login", request.url);
-        loginUrl.searchParams.set("callbackUrl", pathname);
+        // Redirect to main site login with callback URL
+        const loginUrl = new URL("/login", WEB_URL);
+        loginUrl.searchParams.set("callbackUrl", request.url);
         return NextResponse.redirect(loginUrl);
     }
 
