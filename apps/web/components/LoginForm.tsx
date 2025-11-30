@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { TextField, Button, LinkButton, OAuthSocialButton } from "./SimpleComponents";
+import { TextField, Button, LinkButton } from "./SimpleComponents";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { toast } from "@realtyeaseai/ui";
+import { signIn } from "next-auth/react";
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.realtyeaseai.com";
 
 export function LoginForm() {
     const [email, setEmail] = useState("");
@@ -19,35 +22,42 @@ export function LoginForm() {
         setLoading(true);
 
         try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
+            const result = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
+            if (result?.error) {
+                setError("Invalid credentials. Please try again.");
+            } else if (result?.ok) {
                 // Store user data in localStorage if remember me is checked
                 if (rememberMe) {
-                    localStorage.setItem('user', JSON.stringify(data.user));
+                    localStorage.setItem('rememberedEmail', email);
                 }
 
                 // Show success message
                 toast.success('Login successful!');
 
                 // Redirect to dashboard
-                if (data.redirectUrl) {
-                    window.location.href = data.redirectUrl;
-                }
-            } else {
-                setError(data.error || 'Login failed');
+                window.location.href = `${APP_URL}/dashboard`;
             }
         } catch (err) {
             setError('An error occurred. Please try again.');
             console.error('Login error:', err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleGoogleSignIn = async () => {
+        try {
+            await signIn("google", {
+                callbackUrl: `${APP_URL}/dashboard`,
+            });
+        } catch (err) {
+            console.error('Google sign-in error:', err);
+            toast.error('Failed to sign in with Google');
         }
     };
 
@@ -65,7 +75,11 @@ export function LoginForm() {
                 </div>
 
                 {/* OAuth Button */}
-                <button className="flex w-full items-center justify-center gap-3 h-11 rounded-lg border-2 border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4 hover:bg-neutral-50 dark:hover:bg-neutral-700 active:bg-white dark:active:bg-neutral-800 transition-colors">
+                <button
+                    onClick={handleGoogleSignIn}
+                    type="button"
+                    className="flex w-full items-center justify-center gap-3 h-11 rounded-lg border-2 border-neutral-border dark:border-neutral-700 bg-white dark:bg-neutral-800 px-4 hover:bg-neutral-50 dark:hover:bg-neutral-700 active:bg-white dark:active:bg-neutral-800 transition-colors"
+                >
                     <Icon icon="flat-color-icons:google" className="h-5 w-5" />
                     <span className="font-medium text-default-font">Continue with Google</span>
                 </button>
