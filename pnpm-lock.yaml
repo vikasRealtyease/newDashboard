@@ -336,6 +336,9 @@ importers:
       '@react-spring/web':
         specifier: ^10.0.3
         version: 10.0.3(react-dom@19.0.0)(react@19.0.0)
+      '@realtyeaseai/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@realtyeaseai/database':
         specifier: ^1.0.0
         version: link:../../packages/database
@@ -354,6 +357,9 @@ importers:
       next:
         specifier: 16.0.5
         version: 16.0.5(@babel/core@7.28.5)(react-dom@19.0.0)(react@19.0.0)
+      next-auth:
+        specifier: 5.0.0-beta.30
+        version: 5.0.0-beta.30(next@16.0.5)(react@19.0.0)
       react:
         specifier: 19.0.0
         version: 19.0.0
