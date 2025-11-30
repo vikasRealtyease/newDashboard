@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from "next-auth"
 
 export const authConfig = {
+    trustHost: true, // Required for production deployments behind reverse proxy
     pages: {
         signIn: '/login',
     },
