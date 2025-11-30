@@ -4,6 +4,8 @@
     "NODE_ENV",
     "DATABASE_URL",
     "NEXTAUTH_SECRET",
+    "NEXTAUTH_URL",
+    "NEXT_TELEMETRY_DISABLED",
     "NEXT_PUBLIC_*"
   ],
   "tasks": {
