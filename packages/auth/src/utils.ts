@@ -1,73 +1,21 @@
 import type { Role } from "@realtyeaseai/database"
+import type { UserRoleWithPrimary } from "./types"
 
 /**
- * @deprecated No longer using subdomain-per-role architecture.
- * Now using single domain with role-based UI rendering.
+ * Get the redirect URL after login based on user's primary role
+ * Architecture:
+ * - realtyeaseai.com - Main website (landing/marketing)
+ * - realtyeaseai.com/login - Login page
+ * - app.realtyeaseai.com/dashboard - Role-based dashboard for all authenticated users
  *
- * Role-based subdomain mapping (DEPRECATED)
- * Maps user roles to their corresponding subdomain URLs
- */
-export const ROLE_SUBDOMAIN_MAP: Record<Role, string> = {
-    ADMIN: process.env.NEXT_PUBLIC_ADMIN_URL || "https://admin.realtyeaseai.com",
-    MANAGER: process.env.NEXT_PUBLIC_MANAGER_URL || "https://manager.realtyeaseai.com",
-    CLIENT: process.env.NEXT_PUBLIC_CLIENT_URL || "https://app.realtyeaseai.com",
-    VA: process.env.NEXT_PUBLIC_VA_URL || "https://va.realtyeaseai.com",
-}
-
-/**
- * @deprecated Use single domain architecture instead.
- * All users now access the same domain with role-based UI.
- *
- * Get the redirect URL based on user's primary role
- * @param primaryRole - The user's primary role
- * @param path - Optional path to append to the subdomain URL (default: "/dashboard")
+ * @param primaryRole - The user's primary role (not used in current architecture but kept for future)
+ * @param path - Optional path to append (default: "/dashboard")
  * @returns Full URL to redirect to
  */
 export function getRoleBasedRedirectUrl(primaryRole: Role, path: string = "/dashboard"): string {
-    // For single domain architecture, just return the path
-    return path;
-
-    // Old subdomain logic (kept for reference):
-    // const baseUrl = ROLE_SUBDOMAIN_MAP[primaryRole];
-    // if (!baseUrl) {
-    //     throw new Error(`No subdomain mapping found for role: ${primaryRole}`);
-    // }
-    // const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-    // return `${baseUrl}${normalizedPath}`;
-}
-
-/**
- * @deprecated Not used in single domain architecture.
- *
- * Check if current URL matches the user's role-based subdomain
- * @param currentUrl - Current URL
- * @param primaryRole - User's primary role
- * @returns True if user is on correct subdomain, false otherwise
- */
-export function isOnCorrectSubdomain(currentUrl: string, primaryRole: Role): boolean {
-    // Always return true for single domain
-    return true;
-
-    // Old logic:
-    // const expectedBaseUrl = ROLE_SUBDOMAIN_MAP[primaryRole];
-    // return currentUrl.startsWith(expectedBaseUrl);
-}
-
-/**
- * @deprecated Not used in single domain architecture.
- *
- * Get all allowed roles for a subdomain
- * @param subdomain - Subdomain URL
- * @returns Array of roles allowed for this subdomain
- */
-export function getAllowedRolesForSubdomain(subdomain: string): Role[] {
-    // Return all roles for single domain
-    return ['ADMIN', 'MANAGER', 'CLIENT', 'VA'];
-
-    // Old logic:
-    // return (Object.entries(ROLE_SUBDOMAIN_MAP) as [Role, string][])
-    //     .filter(([_, url]) => subdomain.startsWith(url))
-    //     .map(([role]) => role);
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://app.realtyeaseai.com";
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    return `${appUrl}${normalizedPath}`;
 }
 
 /**
@@ -77,6 +25,7 @@ export function getAllowedRolesForSubdomain(subdomain: string): Role[] {
  */
 export function getRoleDisplayName(role: Role): string {
     const roleNames: Record<Role, string> = {
+        SUPERADMIN: 'Super Administrator',
         ADMIN: 'Administrator',
         MANAGER: 'Manager',
         CLIENT: 'Client',
@@ -86,21 +35,56 @@ export function getRoleDisplayName(role: Role): string {
 }
 
 /**
+ * Extract plain Role array from UserRoleWithPrimary array
+ * @param userRoles - Array of user roles with primary flags or undefined
+ * @returns Array of Role enums
+ */
+export function extractRoles(userRoles?: UserRoleWithPrimary[]): Role[] {
+    if (!userRoles) return [];
+    return userRoles.map(r => r.role);
+}
+
+/**
+ * Get the primary role from user roles
+ * @param userRoles - Array of user roles with primary flags or undefined
+ * @returns Primary role or first role or undefined
+ */
+export function getPrimaryRole(userRoles?: UserRoleWithPrimary[]): Role | undefined {
+    if (!userRoles || userRoles.length === 0) return undefined;
+    const primary = userRoles.find(r => r.isPrimary);
+    return primary ? primary.role : userRoles[0].role;
+}
+
+/**
  * Check if user has a specific role
- * @param userRoles - Array of user's roles
+ * @param userRoles - Array of user's roles (can be Role[] or UserRoleWithPrimary[] or undefined)
  * @param requiredRole - Role to check for
  * @returns True if user has the role
  */
-export function hasRole(userRoles: Role[], requiredRole: Role): boolean {
-    return userRoles.includes(requiredRole);
+export function hasRole(userRoles: Role[] | UserRoleWithPrimary[] | undefined, requiredRole: Role): boolean {
+    if (!userRoles || userRoles.length === 0) return false;
+
+    // Check if it's UserRoleWithPrimary[] or Role[]
+    if (typeof userRoles[0] === 'object' && 'role' in userRoles[0]) {
+        return (userRoles as UserRoleWithPrimary[]).some(r => r.role === requiredRole);
+    }
+
+    return (userRoles as Role[]).includes(requiredRole);
 }
 
 /**
  * Check if user has any of the specified roles
- * @param userRoles - Array of user's roles
+ * @param userRoles - Array of user's roles (can be Role[] or UserRoleWithPrimary[] or undefined)
  * @param allowedRoles - Array of allowed roles
  * @returns True if user has at least one of the allowed roles
  */
-export function hasAnyRole(userRoles: Role[], allowedRoles: Role[]): boolean {
-    return userRoles.some(role => allowedRoles.includes(role));
+export function hasAnyRole(userRoles: Role[] | UserRoleWithPrimary[] | undefined, allowedRoles: Role[]): boolean {
+    if (!userRoles || userRoles.length === 0) return false;
+
+    // Check if it's UserRoleWithPrimary[] or Role[]
+    if (typeof userRoles[0] === 'object' && 'role' in userRoles[0]) {
+        return (userRoles as UserRoleWithPrimary[]).some(r => allowedRoles.includes(r.role));
+    }
+
+    return (userRoles as Role[]).some(role => allowedRoles.includes(role));
 }

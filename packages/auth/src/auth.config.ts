@@ -1,41 +1,61 @@
 import type { NextAuthConfig } from "next-auth"
 
+/**
+ * NextAuth Configuration
+ *
+ * Architecture:
+ * - realtyeaseai.com - Main website (landing/marketing)
+ * - realtyeaseai.com/login - Login page
+ * - app.realtyeaseai.com/dashboard - Role-based dashboard for all authenticated users
+ */
 export const authConfig = {
     trustHost: true, // Required for production deployments behind reverse proxy
     pages: {
-        signIn: '/login', // Login is on the main site (realtyeaseai.com)
+        signIn: '/login', // Login page at realtyeaseai.com/login
     },
     callbacks: {
-        // Note: Authorization is now handled by middleware.ts in each app
-        // This allows for role-based subdomain routing and better control
+        // Authorization check - just verify user is authenticated
+        // Role-based access control is handled by middleware in each app
         authorized({ auth }) {
-            // Simply check if user is authenticated
-            // Middleware will handle role-based routing
             return !!auth?.user;
         },
-        // Allow redirects to app subdomain
-        async redirect({ url, baseUrl }) {
-            // Allow redirects to app.realtyeaseai.com
-            const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 
-            // If URL starts with app URL, allow it
-            if (appUrl && url.startsWith(appUrl)) {
+        // Handle redirects between main site and app subdomain
+        async redirect({ url, baseUrl }) {
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://app.realtyeaseai.com";
+            const webUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://realtyeaseai.com";
+
+            // Allow redirects to app subdomain
+            if (url.startsWith(appUrl)) {
                 return url;
             }
 
-            // If URL starts with /, make it relative to base
+            // Allow redirects to main website
+            if (url.startsWith(webUrl)) {
+                return url;
+            }
+
+            // If URL starts with /, determine where to redirect based on context
             if (url.startsWith("/")) {
+                // If on main site and redirecting to dashboard, go to app subdomain
+                if (url === "/dashboard" || url.startsWith("/dashboard/")) {
+                    return `${appUrl}${url}`;
+                }
                 return `${baseUrl}${url}`;
             }
 
             // If URL is on same origin, allow it
-            if (new URL(url).origin === baseUrl) {
-                return url;
+            try {
+                if (new URL(url).origin === baseUrl) {
+                    return url;
+                }
+            } catch {
+                // Invalid URL, fall through to default
             }
 
-            // Default to base URL
-            return baseUrl;
+            // Default: redirect to app dashboard after successful login
+            return `${appUrl}/dashboard`;
         },
     },
-    providers: [], // Add providers with an empty array for now
+    providers: [], // Providers are added in auth.ts
 } satisfies NextAuthConfig

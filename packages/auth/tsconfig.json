@@ -1,0 +1,30 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "paths": {
+            "@realtyeaseai/database": [
+                "../../packages/database/src/index.ts"
+            ],
+            "@realtyeaseai/database/*": [
+                "../../packages/database/src/*"
+            ]
+        },
+        "noEmit": true,
+        "skipLibCheck": true,
+        "moduleResolution": "bundler",
+        "types": [
+            "node",
+            "bcryptjs"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "src/__tests__"
+    ]
+}

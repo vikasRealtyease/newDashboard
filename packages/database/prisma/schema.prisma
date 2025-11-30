@@ -116,10 +116,34 @@ model UserProfile {
 }
 
 enum Role {
+  SUPERADMIN
   ADMIN
   MANAGER
   CLIENT
   VA
+}
+
+// RBAC Permissions
+model Permission {
+  id          String   @id @default(uuid())
+  name        String   @unique // e.g., "user.create", "project.delete", "billing.view"
+  description String?
+  category    String?  // e.g., "users", "projects", "billing"
+  createdAt   DateTime @default(now())
+
+  rolePermissions RolePermission[]
+}
+
+model RolePermission {
+  id           String     @id @default(uuid())
+  role         Role
+  permissionId String
+  createdAt    DateTime   @default(now())
+
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@unique([role, permissionId])
+  @@index([role])
 }
 
 // ============================================

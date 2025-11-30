@@ -6,6 +6,7 @@ import Credentials from "next-auth/providers/credentials"
 import { z } from "zod"
 import bcrypt from "bcryptjs"
 import type { Role } from "@realtyeaseai/database"
+import type { UserRoleWithPrimary } from "./types"
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
     ...authConfig,
@@ -38,7 +39,12 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                             where: { id: user.id },
                             data: { lastLoginAt: new Date() }
                         });
-                        return user;
+
+                        // Return user with roles
+                        return {
+                            ...user,
+                            roles: user.roles.map(r => ({ role: r.role, isPrimary: r.isPrimary }))
+                        };
                     }
                 }
                 console.log("Invalid credentials");
@@ -49,23 +55,40 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
-                // Add user roles to token on login
-                const userRoles = await prisma.userRole.findMany({
-                    where: { userId: user.id },
-                    orderBy: { isPrimary: 'desc' }
-                });
+                // User object from authorize already has roles included
+                // Map them to the correct format for the token
+                token.id = user.id as string;
 
-                token.id = user.id;
-                token.roles = userRoles.map(ur => ur.role);
-                token.primaryRole = userRoles.find(ur => ur.isPrimary)?.role || userRoles[0]?.role;
+                // If user.roles exists (from authorize callback), use it
+                // Otherwise fetch from database (fallback for OAuth or other providers)
+                if (user.roles && Array.isArray(user.roles)) {
+                    token.roles = user.roles;
+                    token.primaryRole = user.roles.find((r) => r.isPrimary)?.role || user.roles[0]?.role;
+                } else {
+                    // Fallback: fetch roles from database
+                    const userRoles = await prisma.userRole.findMany({
+                        where: { userId: user.id as string },
+                        orderBy: { isPrimary: 'desc' }
+                    });
+
+                    token.roles = userRoles.map(ur => ({
+                        role: ur.role,
+                        isPrimary: ur.isPrimary
+                    }));
+                    token.primaryRole = userRoles.find(ur => ur.isPrimary)?.role || userRoles[0]?.role;
+                }
             }
             return token;
         },
         async session({ session, token }) {
-            if (session.user) {
-                session.user.id = token.id;
-                session.user.roles = token.roles;
-                session.user.primaryRole = token.primaryRole;
+            if (session.user && token.sub) {
+                session.user.id = token.sub;
+                if (token.roles) {
+                    session.user.roles = token.roles as UserRoleWithPrimary[];
+                }
+                if (token.primaryRole) {
+                    session.user.primaryRole = token.primaryRole as Role;
+                }
             }
             return session;
         }
