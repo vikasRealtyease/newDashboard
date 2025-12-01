@@ -22,8 +22,8 @@ export const authConfig = {
 
         // Handle redirects between main site and app subdomain
         async redirect({ url, baseUrl }) {
-            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://app.realtyeaseai.com";
-            const webUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://realtyeaseai.com";
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || (process.env.NODE_ENV === 'development' ? "http://localhost:4001" : "https://app.realtyeaseai.com");
+            const webUrl = process.env.NEXT_PUBLIC_WEB_URL || (process.env.NODE_ENV === 'development' ? "http://localhost:4000" : "https://realtyeaseai.com");
 
             // Allow redirects to app subdomain
             if (url.startsWith(appUrl)) {

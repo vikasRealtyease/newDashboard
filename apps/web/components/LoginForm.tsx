@@ -8,7 +8,7 @@ import { toast } from "@realtyeaseai/ui";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.realtyeaseai.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || (typeof window !== 'undefined' && window.location.hostname === 'localhost' ? 'http://localhost:4001' : 'https://app.realtyeaseai.com');
 
 export function LoginForm() {
     const searchParams = useSearchParams();
