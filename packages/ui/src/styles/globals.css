@@ -2,7 +2,7 @@
 @source "../";
 
 
-@plugin "tailwindcss-animate";
+@plugin "tw-animate-css";
 
 @theme {
     --color-background: var(--background);
