@@ -102,6 +102,9 @@ importers:
       tailwindcss:
         specifier: ^4.0.0
         version: 4.1.17
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@4.1.17)
       typescript:
         specifier: latest
         version: 5.9.3
@@ -181,6 +184,9 @@ importers:
       tailwindcss:
         specifier: ^4.1.17
         version: 4.1.17
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@4.1.17)
       tsx:
         specifier: latest
         version: 4.20.6

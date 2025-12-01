@@ -1,4 +1,8 @@
 @import 'tailwindcss';
+@plugin "tailwindcss-animate";
+
+@source "../";
+@source "../../../packages/ui/src";
 
 /* Custom Variant for Mobile */
 @custom-variant mobile (@media (max-width: 767px));
