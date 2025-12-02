@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 /* @plugin "tw-animate-css"; */
 
-@source "../";
-@source "../../../packages/ui/src";
+/* @source "../";
+@source "../../../packages/ui/src"; */
 
 /* Custom Variant for Mobile */
 @custom-variant mobile (@media (max-width: 767px));

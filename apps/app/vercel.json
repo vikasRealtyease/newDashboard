@@ -1,6 +1,6 @@
 {
-    "buildCommand": "cd ../.. && pnpm install && cd apps/app && pnpm run build",
-    "installCommand": "pnpm install --no-frozen-lockfile",
+    "buildCommand": "pnpm turbo build --filter=@realtyeaseai/app",
+    "installCommand": "pnpm install --shamefully-hoist",
     "framework": "nextjs",
     "outputDirectory": ".next",
     "regions": [
