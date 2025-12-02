@@ -1,502 +1,444 @@
-# RealtyEaseAI - Enterprise VA Platform
-## Multi-Role Dashboard System with AI Credits Wallet
+# RealtyEase AI - SaaS Platform Monorepo
 
-[![CI Pipeline](https://github.com/YOUR_USERNAME/realtyeaseai-monorepo/workflows/CI%20Pipeline/badge.svg)](https://github.com/YOUR_USERNAME/realtyeaseai-monorepo/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-16.0-black.svg)](https://nextjs.org/)
+> **Professional AI-powered SaaS platform for real estate management with multi-tenant architecture**
 
----
+## 🏗️ Architecture Overview
 
-## 🎯 What is RealtyEaseAI?
-
-**The No. 1 Virtual Assistant Platform** that combines project management, team collaboration, and AI-powered tools with a revolutionary **hybrid billing model**:
-
-- 💳 **Subscription Plans** - Access to platform features
-- 🪙 **AI Credits Wallet** - Pay-per-use AI tools
-- 🚀 **Enterprise Security** - Built-in from day one
-- 📊 **Multi-Role Dashboards** - Admin, Manager, Client, VA
-- 🤖 **AI Tools** - GPT-4, Document Analysis, Image Generation
-
----
-
-## 🏗️ Architecture
-
-### Monorepo Structure
+This is a **pnpm monorepo** with two Next.js applications sharing common packages:
 
 ```
-realtyeaseai-monorepo/
+monorepo/
 ├── apps/
-│   ├── web/              → Marketing site (realtyease.ai)
-│   ├── client/           → Client dashboard (app.realtyease.ai)
-│   ├── admin/            → Admin panel (admin.realtyease.ai)
-│   ├── manager/          → Manager dashboard (manage.realtyease.ai)
-│   └── va/               → VA workspace (va.realtyease.ai)
+│   ├── web/          # Marketing site + Auth (localhost:4000 | realtyeaseai.com)
+│   └── app/          # Dashboard application (localhost:4001 | app.realtyeaseai.com)
 ├── packages/
-│   ├── ui/               → Shared UI components (49 components)
-│   ├── database/         → Prisma ORM (PostgreSQL)
-│   ├── mongodb/          → MongoDB models (Mongoose)
-│   ├── auth/             → NextAuth.js configuration
-│   └── shared/           → Shared utilities
-├── .github/
-│   ├── workflows/        → CI/CD pipelines
-│   └── PULL_REQUEST_TEMPLATE.md
-└── Documentation/
-    ├── START_HERE.md
-    ├── QUICK_START_GUIDE.md
-    ├── FULL_IMPLEMENTATION_PLAN.md
-    └── 15+ other guides
+│   ├── auth/         # Shared NextAuth configuration
+│   ├── database/     # Prisma schema + client
+│   ├── ui/           # Shared React components
+│   ├── types/        # TypeScript type definitions
+│   └── utils/        # Shared utilities
 ```
 
----
+### **Cross-Domain Authentication Flow**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Development:                                                │
+│  • web:  http://localhost:4000  (Login/Marketing)           │
+│  • app:  http://localhost:4001  (Dashboard)                 │
+│                                                              │
+│  Production:                                                 │
+│  • web:  https://realtyeaseai.com  (Login/Marketing)        │
+│  • app:  https://app.realtyeaseai.com  (Dashboard)          │
+└─────────────────────────────────────────────────────────────┘
+
+Flow:
+1. User visits app.realtyeaseai.com (unauthenticated)
+   → Redirects to realtyeaseai.com/login
+
+2. User logs in at realtyeaseai.com/login
+   → Session cookie set with domain: .realtyeaseai.com (production)
+   → Redirects to app.realtyeaseai.com/dashboard
+
+3. Cookie is shared across subdomains via domain attribute
+```
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+- **Node.js** 18+ 
+- **pnpm** 8.15.0+
+- **PostgreSQL** database (Supabase recommended)
 
-- **Node.js** 20+
-- **pnpm** 8+
-- **Git**
-- **Accounts:** MongoDB Atlas, Supabase, PayPal Developer
-
-### Installation (5 Minutes)
+### Installation
 
 ```bash
-# Clone repository
-git clone https://github.com/YOUR_USERNAME/realtyeaseai-monorepo.git
-cd realtyeaseai-monorepo
-
 # Install dependencies
 pnpm install
 
-# Copy environment file
+# Setup environment variables
 cp .env.example .env
+# Edit .env with your database URL and secrets
 
-# Edit .env with your credentials
-# Follow ENV_SETUP_GUIDE.md for details
+# Generate Prisma client
+pnpm --filter @realtyeaseai/database db:generate
 
-# Run database migrations
-cd packages/database
-npx prisma migrate dev --name init
-npx prisma db seed
+# Push database schema
+pnpm --filter @realtyeaseai/database db:push
 
-# Start all apps
-cd ../..
+# Run both apps in development
 pnpm dev
+
+# Or run individually
+pnpm dev:web   # Port 4000
+pnpm dev:app   # Port 4001
 ```
 
-**Access your apps:**
-- Web: http://localhost:3000
-- Client: http://localhost:3005
-- Admin: http://localhost:3002
-- Manager: http://localhost:3003
-- VA: http://localhost:3004
+## 🔐 Environment Variables
 
----
+Create a `.env` file in the root:
 
-## 📚 Documentation
+```env
+# Database
+DATABASE_URL="postgresql://user:password@host:5432/database"
 
-### Getting Started
+# NextAuth
+NEXTAUTH_SECRET="generate-with-openssl-rand-base64-32"
+NEXTAUTH_URL="http://localhost:4000"  # Dev: web app URL
 
-1. **[START_HERE.md](./START_HERE.md)** - Overview and roadmap
-2. **[QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md)** - 30-minute setup
-3. **[ENV_SETUP_GUIDE.md](./ENV_SETUP_GUIDE.md)** - Environment variables
+# App URLs (for cross-domain redirects)
+NEXT_PUBLIC_WEB_URL="http://localhost:4000"   # Production: https://realtyeaseai.com
+NEXT_PUBLIC_APP_URL="http://localhost:4001"   # Production: https://app.realtyeaseai.com
 
-### Architecture & Planning
+# Cookie Domain (production only)
+COOKIE_DOMAIN=".realtyeaseai.com"  # Leave empty for development
 
-4. **[MONOREPO_ARCHITECTURE.md](./MONOREPO_ARCHITECTURE.md)** - Architecture decisions
-5. **[DATABASE_STRATEGY.md](./DATABASE_STRATEGY.md)** - Hybrid DB approach
-6. **[AUTH_STRATEGY.md](./AUTH_STRATEGY.md)** - Authentication setup
-
-### Implementation
-
-7. **[FULL_IMPLEMENTATION_PLAN.md](./FULL_IMPLEMENTATION_PLAN.md)** - 5-week roadmap
-8. **[COMPLETE_GAP_ANALYSIS.md](./COMPLETE_GAP_ANALYSIS.md)** - What's missing
-9. **[ENTERPRISE_SECURITY_IMPLEMENTATION.md](./ENTERPRISE_SECURITY_IMPLEMENTATION.md)** - Security guide
-
-### Database Setup
-
-10. **[SUPABASE_SETUP.md](./SUPABASE_SETUP.md)** - PostgreSQL setup
-11. **[MONGODB_SETUP.md](./MONGODB_SETUP.md)** - MongoDB Atlas setup
-
-### Deployment
-
-12. **[GITHUB_SETUP.md](./GITHUB_SETUP.md)** - GitHub configuration
-13. **[VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)** - Deploy with subdomains
-14. **[DEPLOYMENT_QUICK_REFERENCE.md](./DEPLOYMENT_QUICK_REFERENCE.md)** - Quick reference
-
-### Additional
-
-15. **[LOGGING_STRATEGY.md](./LOGGING_STRATEGY.md)** - Logging architecture
-
----
-
-## 💡 Key Features
-
-### ✅ Completed (Frontend - 95%)
-
-- **5 Next.js Apps** with full UI
-- **49 Shared Components** (shadcn/ui based)
-- **Complete Dashboards** for all roles
-- **Responsive Design** (mobile-first)
-- **Dark Mode Support**
-- **Comprehensive Schemas** (Prisma + Mongoose)
-
-### 🔨 In Progress (Backend - 10%)
-
-- **Database Migrations** and seeding
-- **Authentication** with OAuth
-- **Permission System** with feature flags
-- **API Routes** with security
-- **Payment Integration** (PayPal)
-- **AI Credits Wallet** system
-
----
-
-## 🎯 Hybrid Billing Model
-
-### Access Logic
-
-```
-Active Subscription + AI Credits = Full Platform Access
+# Node
+NODE_ENV="development"
 ```
 
-### Subscription Plans
+### Generate NEXTAUTH_SECRET
 
-| Plan | Price | Features | AI Credits |
-|------|-------|----------|------------|
-| **Starter** | $29/mo | Basic features | 0 credits |
-| **Professional** | $99/mo | Advanced features | 500 credits |
-| **Enterprise** | $299/mo | All features | 2,000 credits |
+```bash
+openssl rand -base64 32
+```
 
-### AI Credits Wallet
+## 📦 Package Management
 
-- **Purchase:** $10 = 1,000 credits
-- **Never expire**
-- **Auto top-up** available
-- **Track usage** in real-time
+This project uses **pnpm** for superior monorepo performance:
 
-**AI Tools Pricing:**
-- GPT-4 Chat: 10 credits/message
-- Document Analysis: 50 credits/document
-- Image Generation: 100 credits/image
-- Code Generation: 25 credits/request
+### Why pnpm?
+- **Disk efficiency**: Single global store with symlinks (saves GBs)
+- **Speed**: 2-3x faster than npm
+- **Strict**: No phantom dependencies
+- **Workspace protocol**: `workspace:*` for internal packages
 
----
+### Common Commands
 
-## 🛠️ Tech Stack
+```bash
+# Install package to specific app
+pnpm --filter @realtyeaseai/web add <package>
+pnpm --filter @realtyeaseai/app add <package>
+
+# Install to shared package
+pnpm --filter @realtyeaseai/ui add <package>
+
+# Run command in all workspaces
+pnpm -r <command>
+
+# Clean everything
+pnpm clean
+rm -rf node_modules
+pnpm install
+```
+
+## 🗄️ Database
+
+### Technology
+- **ORM**: Prisma
+- **Database**: PostgreSQL (Supabase)
+- **Schema**: `packages/database/prisma/schema.prisma`
+
+### Commands
+
+```bash
+# Generate Prisma Client
+pnpm --filter @realtyeaseai/database db:generate
+
+# Push schema to database (dev)
+pnpm --filter @realtyeaseai/database db:push
+
+# Create migration (production)
+pnpm --filter @realtyeaseai/database db:migrate
+
+# Open Prisma Studio
+pnpm --filter @realtyeaseai/database db:studio
+```
+
+### Schema Highlights
+- **Multi-role system**: SUPERADMIN, ADMIN, MANAGER, CLIENT, VA
+- **Subscription management**: Plans, invoices, usage tracking
+- **AI credits wallet**: Pay-per-use AI features
+- **Project & task management**: Full PM system
+- **Real-time messaging**: Conversation metadata (messages in MongoDB)
+
+## 🎨 Tech Stack
 
 ### Frontend
-
-- **Framework:** Next.js 16 (App Router)
-- **Language:** TypeScript 5.3
-- **Styling:** Tailwind CSS 4
-- **UI Components:** shadcn/ui (49 components)
-- **State:** React Context + Zustand
-- **Forms:** React Hook Form + Zod
+- **Framework**: Next.js 16 (App Router)
+- **React**: 19.0.0
+- **Styling**: Tailwind CSS v4
+- **UI Components**: Custom component library (`@realtyeaseai/ui`)
+- **Animations**: Framer Motion
 
 ### Backend
+- **API**: Next.js API Routes
+- **Auth**: NextAuth.js v5 (beta)
+- **Database**: Prisma + PostgreSQL
+- **Validation**: Zod
 
-- **API:** Next.js API Routes (serverless)
-- **Auth:** NextAuth.js v5
-- **Database (SQL):** PostgreSQL (Supabase)
-- **Database (NoSQL):** MongoDB Atlas
-- **ORM:** Prisma + Mongoose
-- **Validation:** Zod
+### DevOps
+- **Monorepo**: Turborepo
+- **Package Manager**: pnpm
+- **Deployment**: Vercel (recommended)
 
-### Infrastructure
+## 🔒 Authentication & Authorization
 
-- **Monorepo:** Turborepo
-- **Package Manager:** pnpm
-- **Deployment:** Vercel
-- **CI/CD:** GitHub Actions
-- **Monitoring:** Sentry
-- **Analytics:** Vercel Analytics
+### NextAuth Configuration
 
-### Third-Party Services
+**Centralized in**: `packages/auth/src/`
 
-- **Payments:** PayPal
-- **File Storage:** Cloudinary
-- **Email:** Resend
-- **Rate Limiting:** Upstash Redis
-- **Real-time:** Pusher
+- `auth.ts` - Main NextAuth config
+- `auth.config.ts` - Shared config (redirects, callbacks)
+- `types.ts` - TypeScript types
+- `utils.ts` - Helper functions
 
----
+### Role-Based Access Control (RBAC)
 
-## 🗄️ Database Schema
-
-### PostgreSQL (Supabase) - 25+ Models
-
-**Core:**
-- User, Profile, Account, Session
-- Subscription, SubscriptionPlan, Invoice
-- AICreditsWallet, CreditTransaction
-
-**Business:**
-- Project, Task, Team, TeamMember
-- Client, VA, Manager
-
-**Features:**
-- Notification, Document, Template
-- AuditLog (90-day retention)
-
-### MongoDB Atlas - 4 Models
-
-- **Message** - Real-time messaging
-- **File** - File metadata with virus scanning
-- **AILog** - AI usage tracking & billing
-- **ActivityLog** - Security audit trail
-
----
-
-## 🔐 Security Features
-
-### 6-Layer Security Architecture
-
-1. **Network Layer:** Rate limiting, DDoS protection
-2. **Application Layer:** CSP, CORS, security headers
-3. **Authentication Layer:** JWT, OAuth, 2FA
-4. **Authorization Layer:** RBAC, feature flags
-5. **Data Layer:** Encryption, input validation
-6. **Monitoring Layer:** Audit logs, alerts
-
-**Security Features:**
-- ✅ NextAuth.js v5 with OAuth
-- ✅ Role-based access control (RBAC)
-- ✅ Service-based permissions
-- ✅ Rate limiting (Redis)
-- ✅ Input validation (Zod)
-- ✅ SQL injection prevention (Prisma)
-- ✅ XSS protection (sanitization)
-- ✅ CSRF tokens
-- ✅ Audit logging (MongoDB)
-- ✅ 2FA support (TOTP)
-
----
-
-## 📊 Project Status
-
-### Current Progress
-
-| Area | Progress | Status |
-|------|----------|--------|
-| Frontend UI | 95% | ✅ Complete |
-| Database Schemas | 100% | ✅ Complete |
-| Documentation | 100% | ✅ Complete |
-| Backend API | 10% | 🔨 In Progress |
-| Authentication | 5% | 🔨 In Progress |
-| Payments | 0% | ⏳ Planned |
-| AI Integration | 0% | ⏳ Planned |
-
-**Estimated Time to MVP:** 5 weeks (200 hours)
-
----
-
-## 🚀 Development
-
-### Run All Apps
-
-```bash
-pnpm dev
+```typescript
+// User roles (from Prisma schema)
+enum Role {
+  SUPERADMIN  // Full system access
+  ADMIN       // Tenant admin
+  MANAGER     // Project manager
+  CLIENT      // Customer
+  VA          // Virtual assistant
+}
 ```
 
-### Run Specific App
+### Middleware Protection
 
-```bash
-pnpm --filter=@realtyeaseai/web dev
-pnpm --filter=@realtyeaseai/client dev
-pnpm --filter=@realtyeaseai/admin dev
-```
+Each app has its own middleware for route protection:
 
-### Build All Apps
-
-```bash
-pnpm build
-```
-
-### Build Specific App
-
-```bash
-pnpm --filter=@realtyeaseai/web build
-```
-
-### Database Commands
-
-```bash
-# Prisma migrations
-cd packages/database
-npx prisma migrate dev --name migration_name
-npx prisma db seed
-npx prisma studio
-
-# MongoDB connection test
-npx tsx packages/mongodb/test-connection.ts
-```
-
-### Lint & Format
-
-```bash
-pnpm lint
-pnpm type-check
-```
-
----
+**apps/web/middleware.ts** - Protects admin routes
+**apps/app/middleware.ts** - Protects entire dashboard
 
 ## 🌐 Deployment
 
-### Production URLs
+### Vercel (Recommended)
 
-- **Marketing:** https://realtyease.ai
-- **Client Portal:** https://app.realtyease.ai
-- **Admin Panel:** https://admin.realtyease.ai
-- **Manager Dashboard:** https://manage.realtyease.ai
-- **VA Workspace:** https://va.realtyease.ai
+#### Deploy Web App (realtyeaseai.com)
 
-### Deploy to Vercel
+```bash
+cd apps/web
+vercel --prod
+```
 
-1. **Follow:** [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)
-2. **Configure:** 5 separate Vercel projects
-3. **Add:** Custom domains/subdomains
-4. **Set:** Environment variables
-5. **Deploy:** Automatic on git push
+**Environment Variables**:
+```
+DATABASE_URL=<your-postgres-url>
+NEXTAUTH_SECRET=<your-secret>
+NEXTAUTH_URL=https://realtyeaseai.com
+NEXT_PUBLIC_WEB_URL=https://realtyeaseai.com
+NEXT_PUBLIC_APP_URL=https://app.realtyeaseai.com
+COOKIE_DOMAIN=.realtyeaseai.com
+```
 
-**Cost:** $20/month (Vercel Pro required for 5 apps)
+#### Deploy App (app.realtyeaseai.com)
 
----
+```bash
+cd apps/app
+vercel --prod
+```
+
+**Environment Variables**: Same as above
+
+### CORS & Cookies
+
+Production setup ensures:
+- ✅ Cookies shared via `domain: .realtyeaseai.com`
+- ✅ CORS headers allow cross-subdomain requests
+- ✅ Secure cookies (`httpOnly`, `secure`, `sameSite: lax`)
+
+## 📁 Project Structure
+
+```
+monorepo/
+├── apps/
+│   ├── web/                    # Marketing + Auth app (Port 4000)
+│   │   ├── app/
+│   │   │   ├── api/auth/[...nextauth]/  # NextAuth API route
+│   │   │   ├── login/          # Login page
+│   │   │   ├── signup/         # Signup page
+│   │   │   └── page.tsx        # Landing page
+│   │   ├── components/         # Web-specific components
+│   │   ├── next.config.mjs
+│   │   └── package.json
+│   │
+│   └── app/                    # Dashboard app (Port 4001)
+│       ├── app/
+│       │   ├── dashboard/      # Main dashboard
+│       │   └── api/            # App-specific APIs
+│       ├── next.config.mjs
+│       └── package.json
+│
+├── packages/
+│   ├── auth/                   # Shared authentication
+│   │   └── src/
+│   │       ├── auth.ts         # NextAuth setup
+│   │       ├── auth.config.ts  # Auth configuration
+│   │       └── types.ts
+│   │
+│   ├── database/               # Prisma ORM
+│   │   ├── prisma/
+│   │   │   └── schema.prisma   # Database schema
+│   │   └── src/
+│   │       └── index.ts        # Prisma client export
+│   │
+│   ├── ui/                     # Shared UI components
+│   │   └── src/
+│   │       ├── components/     # React components
+│   │       └── styles/         # Global styles
+│   │
+│   ├── types/                  # Shared TypeScript types
+│   └── utils/                  # Shared utilities
+│
+├── .env                        # Environment variables (gitignored)
+├── package.json                # Root package.json
+├── pnpm-workspace.yaml         # pnpm workspace config
+├── turbo.json                  # Turborepo config
+└── tsconfig.json               # Base TypeScript config
+```
+
+## 🧪 Development Workflow
+
+### 1. Start Development Servers
+
+```bash
+# Terminal 1: Run both apps
+pnpm dev
+
+# Or separately:
+# Terminal 1
+pnpm dev:web
+
+# Terminal 2
+pnpm dev:app
+```
+
+### 2. Access Applications
+
+- **Web**: http://localhost:4000
+- **App**: http://localhost:4001
+
+### 3. Test Cross-Domain Auth
+
+1. Go to http://localhost:4001 (should redirect to login)
+2. Login at http://localhost:4000/login
+3. Should redirect back to http://localhost:4001/dashboard
+
+### 4. Database Changes
+
+```bash
+# 1. Edit schema.prisma
+# 2. Generate client
+pnpm --filter @realtyeaseai/database db:generate
+
+# 3. Push to database
+pnpm --filter @realtyeaseai/database db:push
+```
+
+## 🐛 Troubleshooting
+
+### Issue: "MissingSecret" error
+
+**Solution**: Add `NEXTAUTH_SECRET` to `.env`
+
+```bash
+openssl rand -base64 32
+```
+
+### Issue: Prisma client not found
+
+**Solution**: Regenerate Prisma client
+
+```bash
+pnpm --filter @realtyeaseai/database db:generate
+```
+
+### Issue: Port already in use
+
+**Solution**: Kill existing Node processes
+
+```bash
+# Windows
+Get-Process -Name node | Stop-Process -Force
+
+# macOS/Linux
+killall node
+```
+
+### Issue: Cookie not shared between apps
+
+**Solution**: Check cookie domain configuration
+
+- **Development**: `domain` should be `undefined` (same-origin)
+- **Production**: `domain` should be `.realtyeaseai.com`
+
+### Issue: CORS errors
+
+**Solution**: Verify allowed origins in `apps/web/app/api/auth/[...nextauth]/route.ts`
+
+## 📚 Key Concepts
+
+### Workspace Protocol
+
+Internal packages use `workspace:*`:
+
+```json
+{
+  "dependencies": {
+    "@realtyeaseai/auth": "workspace:*",
+    "@realtyeaseai/ui": "workspace:*"
+  }
+}
+```
+
+This tells pnpm to link local packages instead of fetching from npm.
+
+### Turborepo Caching
+
+Turborepo caches build outputs for speed:
+
+```bash
+# Clear cache
+rm -rf .turbo
+pnpm turbo clean
+```
+
+### Environment Variables
+
+- **Root `.env`**: Shared across all apps (via `turbo.json` globalEnv)
+- **App-specific**: Can override in `apps/web/.env.local`
 
 ## 🤝 Contributing
 
-### Development Workflow
+### Code Style
 
-1. Create feature branch
-   ```bash
-   git checkout -b feature/your-feature
-   ```
-
-2. Make changes and commit
-   ```bash
-   git add .
-   git commit -m "feat: add your feature"
-   ```
-
-3. Push and create PR
-   ```bash
-   git push origin feature/your-feature
-   ```
-
-4. Wait for CI to pass
-5. Request review
-6. Merge to main
+- **TypeScript**: Strict mode enabled
+- **Formatting**: Prettier (run `pnpm format`)
+- **Linting**: ESLint (run `pnpm lint`)
 
 ### Commit Convention
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
-
 ```
-feat(auth): add Google OAuth integration
-fix(payments): resolve PayPal webhook issue
-docs(readme): update installation instructions
-refactor(database): optimize Prisma queries
-test(api): add integration tests for user routes
+feat: Add new feature
+fix: Bug fix
+docs: Documentation update
+refactor: Code refactoring
+chore: Maintenance tasks
 ```
-
----
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Proprietary - All rights reserved
+
+## 🔗 Links
+
+- **Production**: https://realtyeaseai.com
+- **Dashboard**: https://app.realtyeaseai.com
+- **Documentation**: (Coming soon)
 
 ---
 
-## 🙏 Acknowledgments
-
-- **Next.js** - React framework
-- **Vercel** - Deployment platform
-- **Supabase** - PostgreSQL hosting
-- **MongoDB Atlas** - NoSQL database
-- **shadcn/ui** - UI components
-- **Turborepo** - Monorepo tooling
-
----
-
-## 📞 Support
-
-### Need Help?
-
-- **📖 Documentation:** See documentation files
-- **🐛 Bug Reports:** [GitHub Issues](https://github.com/YOUR_USERNAME/realtyeaseai-monorepo/issues)
-- **💬 Discussions:** [GitHub Discussions](https://github.com/YOUR_USERNAME/realtyeaseai-monorepo/discussions)
-- **📧 Email:** support@realtyease.ai
-
----
-
-## 🗺️ Roadmap
-
-### Phase 1: MVP (Weeks 1-2) ⏳
-- [ ] Database migrations
-- [ ] Basic authentication
-- [ ] Core API routes
-- [ ] Payment integration (sandbox)
-
-### Phase 2: Core Features (Weeks 3-4) ⏳
-- [ ] Permission system
-- [ ] AI credits wallet
-- [ ] Real-time messaging
-- [ ] File uploads
-
-### Phase 3: Polish (Week 5) ⏳
-- [ ] Security hardening
-- [ ] Performance optimization
-- [ ] Testing
-- [ ] Documentation
-
-### Phase 4: Launch 🚀
-- [ ] Production deployment
-- [ ] Monitoring setup
-- [ ] Beta testing
-- [ ] Public launch
-
----
-
-## 📈 Stats
-
-- **Total Lines of Code:** ~50,000+
-- **Documentation Files:** 15+
-- **UI Components:** 49
-- **Database Models:** 29 (25 Prisma + 4 Mongoose)
-- **Apps:** 5
-- **Packages:** 6
-- **Environment Variables:** 100+
-
----
-
-## 🎯 Quick Links
-
-**Getting Started:**
-- [START_HERE.md](./START_HERE.md) - Start here!
-- [QUICK_START_GUIDE.md](./QUICK_START_GUIDE.md) - 30-min setup
-- [ENV_SETUP_GUIDE.md](./ENV_SETUP_GUIDE.md) - Environment config
-
-**Development:**
-- [FULL_IMPLEMENTATION_PLAN.md](./FULL_IMPLEMENTATION_PLAN.md) - 5-week plan
-- [COMPLETE_GAP_ANALYSIS.md](./COMPLETE_GAP_ANALYSIS.md) - What's missing
-- [ENTERPRISE_SECURITY_IMPLEMENTATION.md](./ENTERPRISE_SECURITY_IMPLEMENTATION.md) - Security
-
-**Deployment:**
-- [GITHUB_SETUP.md](./GITHUB_SETUP.md) - GitHub config
-- [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md) - Vercel deploy
-- [DEPLOYMENT_QUICK_REFERENCE.md](./DEPLOYMENT_QUICK_REFERENCE.md) - Quick ref
-
----
-
-<div align="center">
-
-**Made with ❤️ for Enterprise-Grade Development**
-
-**Let's Build the No. 1 VA Platform! 🚀**
-
-[Website](https://realtyease.ai) • [Documentation](./START_HERE.md) • [Issues](https://github.com/YOUR_USERNAME/realtyeaseai-monorepo/issues)
-
-</div>
-# monorepo
-# monorepo
+**Built with ❤️ using Next.js, Prisma, and pnpm**

@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
     unoptimized: true,
@@ -10,10 +10,12 @@ const nextConfig = {
   transpilePackages: [
     "@realtyeaseai/ui",
     "@realtyeaseai/auth",
+    "@realtyeaseai/database",
     "@realtyeaseai/types",
     "@realtyeaseai/utils",
     "@realtyeaseai/supabase",
   ],
+  serverExternalPackages: ['@prisma/client', 'prisma'],
 };
 
 export default nextConfig;

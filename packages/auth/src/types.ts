@@ -1,5 +1,7 @@
 import { DefaultSession } from "next-auth"
-import type { Role } from "@realtyeaseai/database"
+// import type { Role } from "@realtyeaseai/database"
+
+export type Role = 'SUPERADMIN' | 'ADMIN' | 'MANAGER' | 'CLIENT' | 'VA';
 
 // ============================================
 // Type Definitions

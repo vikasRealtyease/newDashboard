@@ -20,3 +20,4 @@ if (process.env.NODE_ENV !== 'production' && process.env.DATABASE_URL) {
 
 // Re-export Prisma types
 export * from '@prisma/client';
+export type { Role, UserRole } from '@prisma/client';

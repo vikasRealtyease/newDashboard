@@ -5,26 +5,30 @@ import { authConfig } from "./auth.config"
 import Credentials from "next-auth/providers/credentials"
 import { z } from "zod"
 import bcrypt from "bcryptjs"
-import type { Role } from "@realtyeaseai/database"
+import type { Role } from "./types"
 import type { UserRoleWithPrimary } from "./types"
+import type { Provider } from "next-auth/providers"
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
     ...authConfig,
-    adapter: PrismaAdapter(prisma),
+    secret: process.env.NEXTAUTH_SECRET,
+    // Only use PrismaAdapter if DATABASE_URL is configured
+    ...(process.env.DATABASE_URL ? { adapter: PrismaAdapter(prisma) } : {}),
     session: {
         strategy: "jwt",
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
     cookies: {
         sessionToken: {
-            name: `__Secure-next-auth.session-token`,
+            name: process.env.NODE_ENV === 'production'
+                ? `__Secure-next-auth.session-token`
+                : `next-auth.session-token`,
             options: {
                 httpOnly: true,
                 sameSite: 'lax',
                 path: '/',
-                domain: process.env.NODE_ENV === 'production'
-                    ? '.realtyeaseai.com'  // Share cookies across subdomains
-                    : undefined,
+                // Use COOKIE_DOMAIN env var, fallback to undefined for development
+                domain: process.env.COOKIE_DOMAIN || undefined,
                 secure: process.env.NODE_ENV === 'production',
             },
         },
@@ -32,7 +36,11 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     debug: process.env.NODE_ENV === 'development',
     providers: [
         Credentials({
-            async authorize(credentials) {
+            credentials: {
+                email: { label: "Email", type: "email" },
+                password: { label: "Password", type: "password" }
+            },
+            authorize: async (credentials) => {
                 try {
                     const parsedCredentials = z
                         .object({ email: z.string().email(), password: z.string().min(6) })
@@ -74,10 +82,13 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
                         console.log("Login successful for:", email);
 
-                        // Return user with roles
+                        // Return user with required fields and roles
                         return {
-                            ...user,
-                            roles: user.roles.map(r => ({ role: r.role, isPrimary: r.isPrimary }))
+                            id: user.id,
+                            email: user.email,
+                            name: user.name,
+                            image: user.image,
+                            roles: user.roles.map((r: { role: Role; isPrimary: boolean }) => ({ role: r.role, isPrimary: r.isPrimary }))
                         };
                     }
 
@@ -88,32 +99,32 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                     return null;
                 }
             },
-        }),
+        }) as Provider,
     ],
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user, trigger }) {
             if (user) {
                 // User object from authorize already has roles included
                 // Map them to the correct format for the token
-                token.id = user.id as string;
+                token.id = user.id;
 
                 // If user.roles exists (from authorize callback), use it
                 // Otherwise fetch from database (fallback for OAuth or other providers)
-                if (user.roles && Array.isArray(user.roles)) {
-                    token.roles = user.roles;
-                    token.primaryRole = user.roles.find((r) => r.isPrimary)?.role || user.roles[0]?.role;
+                if ((user as any).roles && Array.isArray((user as any).roles)) {
+                    token.roles = (user as any).roles;
+                    token.primaryRole = (user as any).roles.find((r: any) => r.isPrimary)?.role || (user as any).roles[0]?.role;
                 } else {
                     // Fallback: fetch roles from database
                     const userRoles = await prisma.userRole.findMany({
-                        where: { userId: user.id as string },
+                        where: { userId: user.id },
                         orderBy: { isPrimary: 'desc' }
                     });
 
-                    token.roles = userRoles.map(ur => ({
+                    token.roles = userRoles.map((ur: { role: Role; isPrimary: boolean }) => ({
                         role: ur.role,
                         isPrimary: ur.isPrimary
                     }));
-                    token.primaryRole = userRoles.find(ur => ur.isPrimary)?.role || userRoles[0]?.role;
+                    token.primaryRole = userRoles.find((ur: { role: Role; isPrimary: boolean }) => ur.isPrimary)?.role || userRoles[0]?.role;
                 }
             }
             return token;

@@ -1,15 +1,27 @@
 import { handlers } from "@realtyeaseai/auth"
 import { NextRequest } from "next/server"
 
-const allowedOrigins = [
-    'https://realtyeaseai.com',
-    'https://www.realtyeaseai.com',
-    'https://app.realtyeaseai.com',
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://localhost:4000',
-    'http://localhost:4001',
-]
+// Build allowed origins from environment variables
+const getAllowedOrigins = () => {
+    const origins = [];
+
+    // Add configured URLs
+    if (process.env.NEXT_PUBLIC_WEB_URL) {
+        origins.push(process.env.NEXT_PUBLIC_WEB_URL);
+    }
+    if (process.env.NEXT_PUBLIC_APP_URL) {
+        origins.push(process.env.NEXT_PUBLIC_APP_URL);
+    }
+
+    // Development fallbacks
+    if (process.env.NODE_ENV === 'development') {
+        origins.push('http://localhost:3000', 'http://localhost:3001', 'http://localhost:4000', 'http://localhost:4001');
+    }
+
+    return origins;
+};
+
+const allowedOrigins = getAllowedOrigins();
 
 function addCorsHeaders(response: Response, origin?: string | null) {
     if (origin && allowedOrigins.includes(origin)) {

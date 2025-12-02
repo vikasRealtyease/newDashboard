@@ -5,10 +5,20 @@
     "DATABASE_URL",
     "NEXTAUTH_SECRET",
     "NEXTAUTH_URL",
+    "NEXT_PUBLIC_WEB_URL",
+    "NEXT_PUBLIC_APP_URL",
+    "COOKIE_DOMAIN",
     "NEXT_TELEMETRY_DISABLED",
     "NEXT_PUBLIC_*"
   ],
   "tasks": {
+    "db:generate": {
+      "cache": false,
+      "outputs": [
+        "node_modules/.prisma/**",
+        ".prisma/**"
+      ]
+    },
     "build": {
       "dependsOn": [
         "^build"

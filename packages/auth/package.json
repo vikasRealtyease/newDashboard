@@ -4,15 +4,15 @@
     "main": "./src/index.ts",
     "types": "./src/index.ts",
     "dependencies": {
-        "@auth/prisma-adapter": "latest",
-        "@realtyeaseai/database": "*",
-        "bcryptjs": "latest",
-        "next-auth": "beta",
-        "zod": "latest"
+        "@auth/prisma-adapter": "^2.7.4",
+        "@realtyeaseai/database": "workspace:*",
+        "bcryptjs": "^3.0.3",
+        "next-auth": "5.0.0-beta.30",
+        "zod": "^3.24.1"
     },
     "devDependencies": {
-        "@types/bcryptjs": "latest",
-        "@types/node": "latest",
-        "typescript": "latest"
+        "@types/bcryptjs": "^2.4.6",
+        "@types/node": "^22.10.2",
+        "typescript": "^5.7.2"
     }
 }
