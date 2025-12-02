@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Badge } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Textarea } from '@repo/ui';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@realtyeaseai/ui';
+import { Button } from '@realtyeaseai/ui';
+import { Badge } from '@realtyeaseai/ui';
+import { Input } from '@realtyeaseai/ui';
+import { Textarea } from '@realtyeaseai/ui';
 import { Bot, Sparkles, FileText, Image, Code, MessageSquare, TrendingUp, Zap } from 'lucide-react';
-import { Progress } from '@repo/ui';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/ui';
+import { Progress } from '@realtyeaseai/ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@realtyeaseai/ui';
 
 const aiTools = [
   {

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Badge } from '@repo/ui';
-import { Switch } from '@repo/ui';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@realtyeaseai/ui';
+import { Button } from '@realtyeaseai/ui';
+import { Badge } from '@realtyeaseai/ui';
+import { Switch } from '@realtyeaseai/ui';
 import { CheckCircle, X, Zap, Star, HelpCircle } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@repo/ui';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@realtyeaseai/ui';
 
 const pricingTiers = [
   {

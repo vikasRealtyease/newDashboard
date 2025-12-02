@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Badge } from '@repo/ui';
-import { Avatar, AvatarFallback } from '@repo/ui';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Label } from '@repo/ui';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@realtyeaseai/ui';
+import { Button } from '@realtyeaseai/ui';
+import { Badge } from '@realtyeaseai/ui';
+import { Avatar, AvatarFallback } from '@realtyeaseai/ui';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@realtyeaseai/ui';
+import { Input } from '@realtyeaseai/ui';
+import { Label } from '@realtyeaseai/ui';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@realtyeaseai/ui';
 import { Plus, Search, Mail, Phone, MoreVertical, Users, UserCheck, Crown } from 'lucide-react';
 
 const teamMembers = [

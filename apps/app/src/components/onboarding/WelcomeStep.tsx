@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Label } from '@repo/ui';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@realtyeaseai/ui';
+import { Button } from '@realtyeaseai/ui';
+import { Input } from '@realtyeaseai/ui';
+import { Label } from '@realtyeaseai/ui';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@realtyeaseai/ui';
 import { ArrowRight } from 'lucide-react';
 
 export function WelcomeStep() {

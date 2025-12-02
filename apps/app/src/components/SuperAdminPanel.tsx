@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Badge } from '@repo/ui';
-import { Avatar, AvatarFallback } from '@repo/ui';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@realtyeaseai/ui';
+import { Button } from '@realtyeaseai/ui';
+import { Input } from '@realtyeaseai/ui';
+import { Badge } from '@realtyeaseai/ui';
+import { Avatar, AvatarFallback } from '@realtyeaseai/ui';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@realtyeaseai/ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@realtyeaseai/ui';
 import { Search, Filter, Download, TrendingUp, TrendingDown, Users, DollarSign, Briefcase, Bot, Zap, Eye, MoreVertical, AlertTriangle } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from 'recharts';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@realtyeaseai/ui';
 
 // Mock data for 1000 clients (showing subset for performance)
 const generateClients = () => {

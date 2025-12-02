@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Card, CardContent } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui';
-import { Badge } from '@repo/ui';
+import { Card, CardContent } from '@realtyeaseai/ui';
+import { Button } from '@realtyeaseai/ui';
+import { Input } from '@realtyeaseai/ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@realtyeaseai/ui';
+import { Badge } from '@realtyeaseai/ui';
 import { Search, Send, Paperclip, MoreVertical, Phone, Video } from 'lucide-react';
-import { ScrollArea } from '@repo/ui';
+import { ScrollArea } from '@realtyeaseai/ui';
 
 const conversations = [
   {

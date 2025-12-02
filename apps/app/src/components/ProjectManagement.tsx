@@ -1,10 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui';
-import { Badge } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Progress } from '@repo/ui';
-import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@realtyeaseai/ui';
+import { Badge } from '@realtyeaseai/ui';
+import { Button } from '@realtyeaseai/ui';
+import { Progress } from '@realtyeaseai/ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@realtyeaseai/ui';
 import { Plus, Search, Filter, MoreVertical, Users, Calendar, Target } from 'lucide-react';
-import { Input } from '@repo/ui';
+import { Input } from '@realtyeaseai/ui';
 
 const projects = [
   {

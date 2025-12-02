@@ -1,10 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui';
-import { Badge } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Input } from '@repo/ui';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@realtyeaseai/ui';
+import { Badge } from '@realtyeaseai/ui';
+import { Button } from '@realtyeaseai/ui';
+import { Input } from '@realtyeaseai/ui';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@realtyeaseai/ui';
 import { Download, Plus, Search, Filter, DollarSign, Clock, CheckCircle, XCircle } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@realtyeaseai/ui';
 
 const invoices = [
   {

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@realtyeaseai/ui';
 import { LineChart, Line, BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { TrendingUp, TrendingDown, DollarSign, Users, Briefcase, Zap } from 'lucide-react';
 

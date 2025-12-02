@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui';
-import { Badge } from '@repo/ui';
-import { Button } from '@repo/ui';
-import { Checkbox } from '@repo/ui';
-import { Avatar, AvatarFallback } from '@repo/ui';
+import { Card, CardContent, CardHeader, CardTitle } from '@realtyeaseai/ui';
+import { Badge } from '@realtyeaseai/ui';
+import { Button } from '@realtyeaseai/ui';
+import { Checkbox } from '@realtyeaseai/ui';
+import { Avatar, AvatarFallback } from '@realtyeaseai/ui';
 import { Plus, Search, Calendar, Flag, User } from 'lucide-react';
-import { Input } from '@repo/ui';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@repo/ui';
+import { Input } from '@realtyeaseai/ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@realtyeaseai/ui';
 
 const tasks = [
   {
