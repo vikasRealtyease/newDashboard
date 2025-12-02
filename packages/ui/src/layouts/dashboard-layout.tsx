@@ -46,7 +46,7 @@ export interface MenuItem {
 interface DashboardLayoutProps {
     children: React.ReactNode;
     menuItems: MenuItem[];
-    user?: {
+    user: {
         name: string;
         role: string;
         initials: string;
@@ -62,7 +62,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({
     children,
     menuItems,
-    user = { name: "John Doe", role: "User", initials: "JD" },
+    user,
     title,
     isSuperAdmin = false,
     onAdminClick,
@@ -70,6 +70,9 @@ export function DashboardLayout({
     onProfileClick,
     onLogout,
 }: DashboardLayoutProps) {
+    if (!user) {
+        return null;
+    }
     const [openMenus, setOpenMenus] = React.useState<Record<string, boolean>>({});
 
     const toggleMenu = (menuId: string) => {
