@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 /* @plugin "tw-animate-css"; */
 
-@source "../";
-@source "../../../packages/ui/src";
+@source "../../apps/app";
+@source "../../packages/ui/src";
 
 @theme {
   --color-background: var(--background);
