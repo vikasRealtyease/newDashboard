@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuItem } from "../../../components/dashboard/DashboardLayout";
+import { MenuItem } from "../../../layouts/dashboard-layout";
 import { LayoutDashboard, FolderKanban, Users, Bot, MessageSquare } from "lucide-react";
 
 export const getManagerMenuItems = (activeView: string, setActiveView: (view: string) => void): MenuItem[] => [

@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuItem } from "../../../components/dashboard/DashboardLayout";
+import { MenuItem } from "../../../layouts/dashboard-layout";
 import { LayoutDashboard, CheckSquare, Users, MessageSquare } from "lucide-react";
 
 export const getVAMenuItems = (activeView: string, setActiveView: (view: string) => void): MenuItem[] => [
