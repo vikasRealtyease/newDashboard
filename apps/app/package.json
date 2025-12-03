@@ -32,7 +32,7 @@
         "@types/node": "^22.10.2",
         "@types/react": "^19.0.6",
         "@types/react-dom": "^19.0.2",
-        "autoprefixer": "^10.4.20",
+        "autoprefixer": "^10.4.22",
         "baseline-browser-mapping": "^2.8.32",
         "postcss": "^8.5.6",
         "tailwindcss": "^4.1.17",
